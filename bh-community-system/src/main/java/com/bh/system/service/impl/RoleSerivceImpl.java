@@ -126,7 +126,7 @@ public class RoleSerivceImpl implements RoleService {
         for (int i = 0; i < adminIds.size(); i++){
             Admin admin = adminMapper.selectByPrimaryKey(adminIds.get(i));
             if(admin != null)
-                jwtRedisDAO.delete(AdminConstant.JWT_TOKEN + admin.getUkAccount());
+                jwtRedisDAO.delete(AdminConstant.JWT_TOKEN + admin.getUserName());
         }
 
         return ResultUtils.success(null);

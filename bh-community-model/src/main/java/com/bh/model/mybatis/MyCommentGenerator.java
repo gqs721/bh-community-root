@@ -43,7 +43,7 @@ public class MyCommentGenerator extends DefaultCommentGenerator {
         field.addJavaDocLine(sb.toString().replace("\n", " "));
         field.addJavaDocLine(" */");
         //添加 swagger2 字段备注
-        field.addJavaDocLine("@Api(value=\""+introspectedColumn.getRemarks()+"\")");
+        field.addJavaDocLine("@ApiModelProperty(value=\""+introspectedColumn.getRemarks()+"\")");
 
     }
 

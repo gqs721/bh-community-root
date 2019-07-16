@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bh.model.dao.CommunityMapper">
+  <resultMap id="BaseResultMap" type="com.bh.model.domain.Community">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="pm_id" jdbcType="INTEGER" property="pmId" />
+    <result column="pm_name" jdbcType="VARCHAR" property="pmName" />
+    <result column="community_name" jdbcType="VARCHAR" property="communityName" />
+    <result column="community_address" jdbcType="VARCHAR" property="communityAddress" />
+    <result column="community_leader" jdbcType="VARCHAR" property="communityLeader" />
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="del_status" jdbcType="INTEGER" property="delStatus" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, pm_id, pm_name, community_name, community_address, community_leader, phone, status, 
+    del_status, create_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from bh_community
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from bh_community
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.bh.model.domain.Community">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into bh_community (pm_id, pm_name, community_name, 
+      community_address, community_leader, phone, 
+      status, del_status, create_time
+      )
+    values (#{pmId,jdbcType=INTEGER}, #{pmName,jdbcType=VARCHAR}, #{communityName,jdbcType=VARCHAR}, 
+      #{communityAddress,jdbcType=VARCHAR}, #{communityLeader,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, 
+      #{status,jdbcType=INTEGER}, #{delStatus,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.bh.model.domain.Community">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into bh_community
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="pmId != null">
+        pm_id,
+      </if>
+      <if test="pmName != null">
+        pm_name,
+      </if>
+      <if test="communityName != null">
+        community_name,
+      </if>
+      <if test="communityAddress != null">
+        community_address,
+      </if>
+      <if test="communityLeader != null">
+        community_leader,
+      </if>
+      <if test="phone != null">
+        phone,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="delStatus != null">
+        del_status,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="pmId != null">
+        #{pmId,jdbcType=INTEGER},
+      </if>
+      <if test="pmName != null">
+        #{pmName,jdbcType=VARCHAR},
+      </if>
+      <if test="communityName != null">
+        #{communityName,jdbcType=VARCHAR},
+      </if>
+      <if test="communityAddress != null">
+        #{communityAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="communityLeader != null">
+        #{communityLeader,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null">
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="delStatus != null">
+        #{delStatus,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bh.model.domain.Community">
+    update bh_community
+    <set>
+      <if test="pmId != null">
+        pm_id = #{pmId,jdbcType=INTEGER},
+      </if>
+      <if test="pmName != null">
+        pm_name = #{pmName,jdbcType=VARCHAR},
+      </if>
+      <if test="communityName != null">
+        community_name = #{communityName,jdbcType=VARCHAR},
+      </if>
+      <if test="communityAddress != null">
+        community_address = #{communityAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="communityLeader != null">
+        community_leader = #{communityLeader,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null">
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="delStatus != null">
+        del_status = #{delStatus,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bh.model.domain.Community">
+    update bh_community
+    set pm_id = #{pmId,jdbcType=INTEGER},
+      pm_name = #{pmName,jdbcType=VARCHAR},
+      community_name = #{communityName,jdbcType=VARCHAR},
+      community_address = #{communityAddress,jdbcType=VARCHAR},
+      community_leader = #{communityLeader,jdbcType=VARCHAR},
+      phone = #{phone,jdbcType=VARCHAR},
+      status = #{status,jdbcType=INTEGER},
+      del_status = #{delStatus,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <!-- ********* 自定义 *********** -->
+  <!-- 小区 -->
+  <resultMap id="CommunityResultMap" type="java.util.HashMap">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="pm_id" jdbcType="INTEGER" property="pmId" />
+    <result column="pm_name" jdbcType="VARCHAR" property="pmName" />
+    <result column="community_name" jdbcType="VARCHAR" property="communityName" />
+    <result column="community_address" jdbcType="VARCHAR" property="communityAddress" />
+    <result column="community_leader" jdbcType="VARCHAR" property="communityLeader" />
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="del_status" jdbcType="INTEGER" property="delStatus" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+  </resultMap>
+
+  <!-- 批量删除 逻辑删除-->
+  <update id="deleteBatch" parameterType="java.lang.Integer">
+    update bh_community
+    set del_status=1
+    where id in
+    <foreach collection="array" index="index" item="item"
+             separator="," open="(" close=")">
+      #{item}
+    </foreach>
+  </update>
+
+  <!-- 数据列表 -->
+  <select id="listPage" parameterType="java.util.HashMap" resultMap="CommunityResultMap">
+    select
+    sa.id,
+    sa.pm_id,
+    sa.pm_name,
+    sa.community_name,
+    sa.community_address,
+    sa.community_leader,
+    sa.phone,
+    sa.status,
+    sa.del_status,
+    sa.create_time
+    from bh_community as sa
+    <trim prefix="WHERE" prefixOverrides="AND|OR">
+      del_status=0
+      <if test="keyword != null and keyword != ''">
+        AND ( sa.community_name LIKE CONCAT('%', #{keyword}, '%'))
+      </if>
+    </trim>
+    order by status
+    <if test="pageNum != null and pageSize != null">
+      LIMIT #{pageNum},#{pageSize}
+    </if>
+  </select>
+
+  <!-- 分页数量统计 -->
+  <select id="countPage" parameterType="java.util.HashMap" resultType="java.lang.Integer">
+    select
+    count(1)
+    from bh_community as sa
+    <trim prefix="WHERE" prefixOverrides="AND|OR">
+      del_status=0
+      <if test="keyword != null and keyword != ''">
+        AND ( sa.community_name LIKE CONCAT('%', #{keyword}, '%'))
+      </if>
+    </trim>
+  </select>
+
+  <select id="findListByPmId" parameterType="java.lang.Integer" resultMap="CommunityResultMap">
+    select
+    sa.id,
+    sa.pm_id,
+    sa.pm_name,
+    sa.community_name
+    from bh_community as sa
+    where sa.pm_id = #{pmId} and sa.del_status=0
+  </select>
+</mapper>

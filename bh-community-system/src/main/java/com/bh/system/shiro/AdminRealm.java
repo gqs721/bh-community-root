@@ -61,7 +61,7 @@ public class AdminRealm extends AuthorizingRealm {
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
 
         String account = (String) principalCollection.getPrimaryPrincipal();
-        Admin admin = adminMapper.getByAuthenticatorUkAccount(account);
+        Admin admin = adminMapper.getByAuthenticatorUserName(account);
 
         List<String> roleNames = new ArrayList<>();
         List<Integer> roleIds = new ArrayList<>();
@@ -71,7 +71,7 @@ public class AdminRealm extends AuthorizingRealm {
 
         if (null != admin){
             // 获取当前 管理员 角色列表
-            List<Role> roles = roleMapper.getRolesByAdminId(admin.getPkId());
+            List<Role> roles = roleMapper.getRolesByAdminId(admin.getId());
             // 获取 角色名称列表、角色ID列表
             for (Role role: roles
                     ) {
@@ -130,7 +130,7 @@ public class AdminRealm extends AuthorizingRealm {
         String account = target[0];
 
         // 验证用户是否存在
-        Admin admin = adminMapper.getByAuthenticatorUkAccount(account);
+        Admin admin = adminMapper.getByAuthenticatorUserName(account);
         if (admin == null){
             // 账号不存在
             throw new APIRunTimeException(1,"account not exist");

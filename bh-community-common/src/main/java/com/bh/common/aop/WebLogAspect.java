@@ -1,6 +1,7 @@
 package com.bh.common.aop;
 
 import com.bh.common.utils.DateUtil;
+import com.bh.common.utils.StringUtil;
 import com.bh.model.dao.SysLogMapper;
 import com.bh.model.domain.Admin;
 import com.bh.model.domain.SysLog;
@@ -96,9 +97,12 @@ public class WebLogAspect {
 
         //获取操作
         MyLog myLog = method.getAnnotation(MyLog.class);
+        // 只记录需要记录的操作日志
         if (myLog != null) {
             String value = myLog.value();
             sysLog.setOperation(value);//保存获取的操作
+        } else {
+            return;
         }
 
         //获取请求的类名
@@ -117,7 +121,7 @@ public class WebLogAspect {
         String userName = (String)SecurityUtils.getSubject().getPrincipal();
         //获取用户名
         if(userName == null && "login".equals(methodName) && u != null){
-            sysLog.setUserName(u.getUkAccount());
+            sysLog.setUserName(u.getUserName());
         }else{
             sysLog.setUserName(userName);
         }

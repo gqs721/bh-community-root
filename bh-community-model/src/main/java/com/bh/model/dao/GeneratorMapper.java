@@ -4,7 +4,7 @@ import com.bh.model.domain.Generator;
 import com.bh.model.domain.Generator;
 
 public interface GeneratorMapper {
-    int deleteByPrimaryKey(Integer pkId);
+    int deleteByPrimaryKey(Integer id);
 
     int insert(Generator record);
 

@@ -22,9 +22,9 @@ public class SignUtil {
         map.put("version","1.1.0");
         map.put("timestamp","123123019283");
         Admin admin = new Admin();
-        admin.setPkId(1);
-        admin.setNickname("sdfsf");
-        admin.setUkAccount("sdd");
+        admin.setId(1);
+        admin.setRealName("sdfsf");
+        admin.setUserName("sdd");
         map.put("user",admin);
 
         getSign(map);

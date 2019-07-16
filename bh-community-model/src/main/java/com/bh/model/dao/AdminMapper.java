@@ -7,13 +7,13 @@ import java.util.List;
 import java.util.Map;
 
 public interface AdminMapper {
-    int deleteByPrimaryKey(Integer pkId);
+    int deleteByPrimaryKey(Integer id);
 
     int insert(Admin record);
 
     int insertSelective(Admin record);
 
-    Admin selectByPrimaryKey(Integer pkId);
+    Admin selectByPrimaryKey(Integer id);
 
     int updateByPrimaryKeySelective(Admin record);
 
@@ -21,16 +21,16 @@ public interface AdminMapper {
 
     // *** 自定义 ***
 
-    Admin getByAuthenticatorUkAccount(String ukAccount);
+    Admin getByAuthenticatorUserName(String userName);
 
-    Map getAdminByUkAccount(String ukAccount);
+    Map getAdminByUserName(String userNmae);
 
     /**
      * 批量删除
-     * @param pkIds
+     * @param ids
      * @return
      */
-    int deleteBatch(Integer[] pkIds);
+    int deleteBatch(Integer[] ids);
 
 
     /**
@@ -46,4 +46,18 @@ public interface AdminMapper {
      * @return
      */
     Integer countPage(Map queryMap);
+
+    /**
+     * 通过邮箱获取用户，看该邮箱是否已注册
+     * @param email
+     * @return
+     */
+    Admin selectByEmail(String email);
+
+    /**
+     * 通过用户名获取用户
+     * @param email
+     * @return
+     */
+    Admin selectByUserName(String email);
 }

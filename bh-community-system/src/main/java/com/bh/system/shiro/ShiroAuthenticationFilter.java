@@ -88,7 +88,7 @@ public class ShiroAuthenticationFilter extends BasicHttpAuthenticationFilter {
             // 账号不存在
             throw new UnknownAccountException();
         }
-        String account = (String) params.get("ukAccount");
+        String account = (String) params.get("userName");
         // 设置 account ==》 account + authorization， 把 authorization 传递到Realm中 进行认证
         ShiroToken token = new ShiroToken(account + ":" + authorization);
 

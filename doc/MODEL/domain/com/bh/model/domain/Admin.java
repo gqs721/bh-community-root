@@ -1,8 +1,5 @@
 package com.bh.model.domain;
 
-import io.swagger.annotations.ApiModelProperty;
-
-import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 public class Admin {
@@ -27,13 +24,13 @@ public class Admin {
     /**
      * 
      */
-    @ApiModelProperty(value="用户密码")
+    @ApiModelProperty(value="")
     private String password;
 
     /**
      * 
      */
-    @ApiModelProperty(value="用户姓名")
+    @ApiModelProperty(value="")
     private String realName;
 
     /**
@@ -45,7 +42,7 @@ public class Admin {
     /**
      * 公司名称
      */
-    @ApiModelProperty(value="营业执照")
+    @ApiModelProperty(value="公司名称")
     private String businessLicense;
 
     /**
@@ -99,7 +96,7 @@ public class Admin {
     /**
      * 审核状态，0:审核未通过，1审核通过
      */
-    @ApiModelProperty(value="审核状态，0：待审核，1：审核通过，2：审核不通过")
+    @ApiModelProperty(value="审核状态，0:审核未通过，1审核通过")
     private Integer auditStatus;
 
     /**
@@ -119,10 +116,6 @@ public class Admin {
      */
     @ApiModelProperty(value="最后登录时间")
     private Date lastLoginTime;
-
-    private Integer roleId;
-
-    private String roleName;
 
     public Integer getId() {
         return id;
@@ -274,22 +267,6 @@ public class Admin {
 
     public void setLastLoginTime(Date lastLoginTime) {
         this.lastLoginTime = lastLoginTime;
-    }
-
-    public Integer getRoleId() {
-        return roleId;
-    }
-
-    public void setRoleId(Integer roleId) {
-        this.roleId = roleId;
-    }
-
-    public String getRoleName() {
-        return roleName;
-    }
-
-    public void setRoleName(String roleName) {
-        this.roleName = roleName;
     }
 
     @Override

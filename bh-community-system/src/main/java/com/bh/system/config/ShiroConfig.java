@@ -85,7 +85,13 @@ public class ShiroConfig {
         Map<String, String> filterChainDefinitionMap = new LinkedHashMap<String, String>();
         // 因为 管理员登录模块 和 用户管理模块 有命名冲突，规范 管理员登录 即：sys
         filterChainDefinitionMap.put("/sys/admin/login", "anon");
-        filterChainDefinitionMap.put("/sys/admin/save", "anon");
+//        filterChainDefinitionMap.put("/sys/admin/save", "anon");
+        filterChainDefinitionMap.put("/sys/admin/registerSave", "anon");
+        filterChainDefinitionMap.put("/sys/admin/image", "anon");
+        filterChainDefinitionMap.put("/sys/admin/sendMail", "anon");
+        filterChainDefinitionMap.put("/sys/admin/verifyMail", "anon");
+        filterChainDefinitionMap.put("/sys/admin/verifyMailCode", "anon");
+        filterChainDefinitionMap.put("/sys/admin/resetPassword", "anon");
         filterChainDefinitionMap.put("/druid/**", "anon");
         //swagger接口权限 开放
         filterChainDefinitionMap.put("/swagger-ui.html", "anon");

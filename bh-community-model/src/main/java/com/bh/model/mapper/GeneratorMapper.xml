@@ -2,26 +2,26 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.bh.model.dao.GeneratorMapper">
   <resultMap id="BaseResultMap" type="com.bh.model.domain.Generator">
-    <id column="pk_id" jdbcType="INTEGER" property="pkId" />
+    <id column="id" jdbcType="INTEGER" property="d" />
   </resultMap>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from sys_generator
-    where pk_id = #{pkId,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.bh.model.domain.Generator">
-    insert into sys_generator (pk_id)
-    values (#{pkId,jdbcType=INTEGER})
+    insert into sys_generator (id)
+    values (#{id,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.bh.model.domain.Generator">
     insert into sys_generator
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="pkId != null">
-        pk_id,
+      <if test="id != null">
+        id,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="pkId != null">
-        #{pkId,jdbcType=INTEGER},
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>

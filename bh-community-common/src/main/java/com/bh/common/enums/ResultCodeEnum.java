@@ -27,8 +27,8 @@ public enum ResultCodeEnum {
     ACCOUNT_EXIST(200003, "账户已存在"),
     MOBIILE_EXIST(200004, "该手机号已注册"),
     ROLE_NOT_FOUND(200005, "该角色不存在"),
-
     MENU_EXIST(200006,"菜单已存在"),
+    EMAIL_EXIST(200007,"该邮箱已注册"),
 
 
     DEVICE_NOT_FOUND(300001, "设备找不到");

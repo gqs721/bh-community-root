@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bh.model.dao.PropertyManagementMapper">
+  <resultMap id="BaseResultMap" type="com.bh.model.domain.PropertyManagement">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="pm_logo" jdbcType="VARCHAR" property="pmLogo" />
+    <result column="pm_name" jdbcType="VARCHAR" property="pmName" />
+    <result column="audit_status" jdbcType="INTEGER" property="auditStatus" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, pm_logo, pm_name, audit_status, status, create_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from bh_property_management
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from bh_property_management
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.bh.model.domain.PropertyManagement">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into bh_property_management (pm_logo, pm_name, audit_status, 
+      status, create_time)
+    values (#{pmLogo,jdbcType=VARCHAR}, #{pmName,jdbcType=VARCHAR}, #{auditStatus,jdbcType=INTEGER}, 
+      #{status,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.bh.model.domain.PropertyManagement">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into bh_property_management
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="pmLogo != null">
+        pm_logo,
+      </if>
+      <if test="pmName != null">
+        pm_name,
+      </if>
+      <if test="auditStatus != null">
+        audit_status,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="pmLogo != null">
+        #{pmLogo,jdbcType=VARCHAR},
+      </if>
+      <if test="pmName != null">
+        #{pmName,jdbcType=VARCHAR},
+      </if>
+      <if test="auditStatus != null">
+        #{auditStatus,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bh.model.domain.PropertyManagement">
+    update bh_property_management
+    <set>
+      <if test="pmLogo != null">
+        pm_logo = #{pmLogo,jdbcType=VARCHAR},
+      </if>
+      <if test="pmName != null">
+        pm_name = #{pmName,jdbcType=VARCHAR},
+      </if>
+      <if test="auditStatus != null">
+        audit_status = #{auditStatus,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bh.model.domain.PropertyManagement">
+    update bh_property_management
+    set pm_logo = #{pmLogo,jdbcType=VARCHAR},
+      pm_name = #{pmName,jdbcType=VARCHAR},
+      audit_status = #{auditStatus,jdbcType=INTEGER},
+      status = #{status,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

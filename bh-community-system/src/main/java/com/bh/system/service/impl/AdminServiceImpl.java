@@ -15,20 +15,16 @@ import com.bh.common.utils.JWTUtils;
 import com.bh.common.utils.StringUtil;
 import com.bh.model.dao.AdminMapper;
 import com.bh.model.dao.AdminRoleMapper;
+import com.bh.model.dao.PropertyManagementMapper;
 import com.bh.model.dao.RoleMapper;
 import com.bh.model.domain.Admin;
 import com.bh.model.domain.AdminRole;
+import com.bh.model.domain.PropertyManagement;
 import com.bh.model.domain.Role;
 import com.bh.system.params.AdminRequest;
 import com.bh.system.params.AdminUpdateRequest;
 import com.bh.system.redis.JWTRedisDAO;
 import com.bh.system.service.AdminService;
-import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.authc.AuthenticationException;
-import org.apache.shiro.authc.IncorrectCredentialsException;
-import org.apache.shiro.authc.UnknownAccountException;
-import org.apache.shiro.authc.UsernamePasswordToken;
-import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -50,6 +46,9 @@ public class AdminServiceImpl implements AdminService {
     private AdminRoleMapper adminRoleMapper;
 
     @Autowired
+    private PropertyManagementMapper propertyManagementMapper;
+
+    @Autowired
     private JWTRedisDAO jwtRedisDAO;
 
 
@@ -58,13 +57,13 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public RestResult login(Map map) {
-        String account = (String) map.get("ukAccount");
+        String account = (String) map.get("userName");
         // 参数校验
         if (StringUtil.isEmpty(account)){
             return ResultUtils.error(ResultCodeEnum.ILLEGAL_ARGUMENT.getCode(),ResultCodeEnum.ILLEGAL_ARGUMENT.getMsg());
         }
         // 验证账户是否存在
-        Admin admin = adminMapper.getByAuthenticatorUkAccount(account);
+        Admin admin = adminMapper.getByAuthenticatorUserName(account);
         if (null == admin){
             return ResultUtils.error(ResultCodeEnum.USER_NOT_FOUND.getCode(),ResultCodeEnum.USER_NOT_FOUND.getMsg());
         }
@@ -80,10 +79,23 @@ public class AdminServiceImpl implements AdminService {
 
         WebLogAspect.getUser(admin);
 
+        List<PropertyManagement> list = propertyManagementMapper.getAll();
+        String companyName = "";
+        String companyLogo = "";
+        if(list.isEmpty()){
+            companyName = admin.getCompanyName();
+            companyLogo = admin.getCompanyLogo();
+        }else{
+            companyName = list.get(0).getPmName();
+            companyLogo = list.get(0).getPmLogo();
+        }
+
         // 生成 token
         Map domain = new HashMap();
-        domain.put(AdminConstant.PKID, admin.getPkId());
-        domain.put(AdminConstant.UKACCOUNT, admin.getUkAccount());
+        domain.put(AdminConstant.PKID, admin.getId());
+        domain.put(AdminConstant.COMPANYNAME, companyName);// 公司名称
+        domain.put(AdminConstant.COMPANYLOGO, companyLogo);// 公司logo
+        domain.put(AdminConstant.USERNAME, admin.getUserName());
         domain.put("time", System.currentTimeMillis());
         String token = JWTUtils.generateToken(AdminConstant.JWT_SALT, domain);
 
@@ -91,10 +103,20 @@ public class AdminServiceImpl implements AdminService {
         jwtRedisDAO.set(AdminConstant.JWT_TOKEN + account, token);
 
         // 返回数据
-        Map adminMap = adminMapper.getAdminByUkAccount(account);
+        Map adminMap = adminMapper.getAdminByUserName(account);
         Map params = new HashMap();
         params.put("admin",adminMap);
         params.put("token",token);
+
+        // 返回物业logo和名称
+        params.put("companyNamae", companyName);
+        params.put("companyLogo", companyLogo);
+
+        // 修改最后登录时间
+        Admin a = new Admin();
+        a.setId(admin.getId());
+        a.setLastLoginTime(DateUtil.getCurrentDate());
+        adminMapper.updateByPrimaryKeySelective(a);
 
         return ResultUtils.success(params);
     }
@@ -103,65 +125,75 @@ public class AdminServiceImpl implements AdminService {
     public RestResult logout(String authorization) {
 
         Map params = JWTUtils.getClaims(AdminConstant.JWT_SALT, authorization);
-        if (StringUtil.isEmpty((String) params.get(AdminConstant.UKACCOUNT))){
+        if (StringUtil.isEmpty((String) params.get(AdminConstant.USERNAME))){
             return ResultUtils.error(ResultCodeEnum.ILLEGAL_ARGUMENT.getCode(),ResultCodeEnum.ILLEGAL_ARGUMENT.getMsg());
         }
         // 更新 redis token
-        jwtRedisDAO.delete(AdminConstant.JWT_TOKEN+params.get(AdminConstant.UKACCOUNT));
+        jwtRedisDAO.delete(AdminConstant.JWT_TOKEN+params.get(AdminConstant.USERNAME));
         return ResultUtils.success(null);
     }
 
     @Override
-    public RestResult saveAdmin(AdminRequest adminRequest) {
+    public RestResult saveAdmin(Admin admin) {
 
-        // 判断 是否已经存在
-        if (null != adminMapper.getAdminByUkAccount(adminRequest.getUkAccount())) {
+        // 判断账户是否已经存在
+        if (null != adminMapper.getAdminByUserName(admin.getUserName())) {
             return ResultUtils.error(ResultCodeEnum.ACCOUNT_EXIST.getCode(),ResultCodeEnum.ACCOUNT_EXIST.getMsg());
         }
-
-        Role role = roleMapper.selectByPrimaryKey(adminRequest.getRoleId());
-        if (null == role){
-            throw new RoleNotExistException(ResultCodeEnum.ROLE_NOT_FOUND.getCode(),ResultCodeEnum.ROLE_NOT_FOUND.getMsg());
+        // 判断邮箱是否已经存在
+        if (null != adminMapper.selectByEmail(admin.getEmail())) {
+            return ResultUtils.error(ResultCodeEnum.EMAIL_EXIST.getCode(),ResultCodeEnum.EMAIL_EXIST.getMsg());
         }
 
+        // 添加权限管理员时才验证角色是否存在
+        if(admin.getAdminType() == 3) {
+            Role role = roleMapper.selectByPrimaryKey(admin.getRoleId());
+            if (null == role) {
+                throw new RoleNotExistException(ResultCodeEnum.ROLE_NOT_FOUND.getCode(), ResultCodeEnum.ROLE_NOT_FOUND.getMsg());
+            }
+        }
 
         Date date = DateUtil.getCurrentDate();
 
         // 初始化 管理员
         // 传递 date 作用：保持用户创建时间 与 用户角色关联信息创建时间一致性
-        Admin admin = formatAdmin(adminRequest,date);
+        admin = formatAdmin(admin,date);
 
         adminMapper.insertSelective(admin);
 
-        if (null == admin.getPkId()){
+        if (null == admin.getId()){
             throw new IllegalArgumentException();
         }
 
-        // 持久化 用户角色关联信息
-        AdminRole adminRole = formatAdminRole(adminRequest, admin.getPkId(), date);
-        adminRoleMapper.insertSelective(adminRole);
+        if(admin.getAdminType() == 3) {
+            // 持久化 用户角色关联信息
+            AdminRole adminRole = formatAdminRole(admin, admin.getId(), date);
+            adminRoleMapper.insertSelective(adminRole);
+        }
 
         // 处理 返回特殊内容
         admin.setPassword(null);
         admin.setSalt(null);
-        return ResultUtils.success(admin);
+        return ResultUtils.success("注册成功，等待审核");
     }
 
+    // 暂时没用
     @Override
-    public RestResult saveBatch(List<AdminRequest> adminRequests) {
+    public RestResult saveBatch(List<Admin> adminRequests) {
 
         // 验证用户是否存在
-        for (AdminRequest a:adminRequests
+        for (Admin a:adminRequests
              ) {
-            if (null != adminMapper.getAdminByUkAccount(a.getUkAccount()))
+            if (null != adminMapper.getAdminByUserName(a.getUserName()))
                 throw new APIRunTimeException(ResultCodeEnum.ACCOUNT_EXIST.getCode(),ResultCodeEnum.ACCOUNT_EXIST.getMsg());
         }
 
         // 验证角色是否存在
-        for (AdminRequest a:adminRequests){
-            if (null == roleMapper.selectByPrimaryKey(a.getRoleId()))
-                throw new RoleNotExistException(ResultCodeEnum.ROLE_NOT_FOUND.getCode(),ResultCodeEnum.ROLE_NOT_FOUND.getMsg());
-
+        for (Admin a : adminRequests) {
+            if(a.getAdminType() == 3) {
+                if (null == roleMapper.selectByPrimaryKey(a.getRoleId()))
+                    throw new RoleNotExistException(ResultCodeEnum.ROLE_NOT_FOUND.getCode(), ResultCodeEnum.ROLE_NOT_FOUND.getMsg());
+            }
         }
 
         List<Admin> admins = new ArrayList<>();
@@ -173,16 +205,17 @@ public class AdminServiceImpl implements AdminService {
 
         List<AdminRole> adminRoles = new ArrayList<>();
         for (int i=0; i<adminRequests.size(); i++){
-            AdminRole adminRole = new AdminRole();
-            adminRole.setAmdinId(admins.get(i).getPkId());
-            adminRole.setRoleId(adminRequests.get(i).getRoleId());
-            adminRole.setDeleteFlag(0);
-            adminRole.setCreateTime(currentDate);
-            adminRoles.add(adminRole);
+            if(adminRequests.get(i).getAdminType() == 3) {
+                AdminRole adminRole = new AdminRole();
+                adminRole.setAmdinId(admins.get(i).getId());
+                adminRole.setRoleId(adminRequests.get(i).getRoleId());
+                adminRole.setDeleteFlag(0);
+                adminRole.setCreateTime(currentDate);
+                adminRoles.add(adminRole);
+            }
         }
 
         // 批量持久化用户角色关联信息
-
 
         return ResultUtils.success(null);
     }
@@ -205,53 +238,38 @@ public class AdminServiceImpl implements AdminService {
         adminMapper.deleteBatch(ids);
         // 管理员与角色关联信息 物理删除
 //        adminRoleMapper.deleteBatch(ids);
-        return ResultUtils.success(null);
+        return ResultUtils.success("删除成功");
     }
 
     @Override
-    public RestResult updateAdmin(AdminUpdateRequest adminUpdateRequest) {
+    public RestResult updateAdmin(Admin admin) {
 
         Date currentDate = DateUtil.getCurrentDate();
 
-//        Admin oldAdmin = adminMapper.selectByPrimaryKey(adminUpdateRequest.getPkId());
-
-        // 初始化 修改信息
-        Admin admin = new Admin();
-        admin.setPkId(adminUpdateRequest.getPkId());
-        admin.setNickname(adminUpdateRequest.getNickname());
-//        admin.setStatus(adminUpdateRequest.getStatus());
-        admin.setPhone(adminUpdateRequest.getPhone());
-        admin.setEmail(adminUpdateRequest.getEmail());
-        admin.setUpdateTime(currentDate);
-
-//        String salt = oldAdmin.getSalt();
-//        String newPass = EncryptUtils.encrypt(adminUpdateRequest.getPassword(), salt);
-//        admin.setPassword(newPass);
-
-
-//        adminMapper.updateByPrimaryKey(admin);
         adminMapper.updateByPrimaryKeySelective(admin);
 
-        List<Integer> roleIds = adminRoleMapper.getAdminRoles(admin.getPkId());
+        List<Integer> roleIds = adminRoleMapper.getAdminRoles(admin.getId());
 
-        // 删除之前 管理员角色关联信息
-        adminRoleMapper.deleteByAdminId(admin.getPkId());
+        if(admin.getAdminType() == 3) {
+            // 删除之前 管理员角色关联信息
+            adminRoleMapper.deleteByAdminId(admin.getId());
 
-        // 添加新的关联信息
-        AdminRole adminRole = formatAdminRole(adminUpdateRequest,admin.getPkId(),currentDate);
-        adminRoleMapper.insertSelective(adminRole);
+            // 添加新的关联信息
+            AdminRole adminRole = formatAdminRole(admin, admin.getId(), currentDate);
+            adminRoleMapper.insertSelective(adminRole);
 
-        // 修改管理员信息时，如果有修改角色，那就清空用户的token，让用户重新登录
-        if(!roleIds.isEmpty()){
-            for (int i = 0; i < roleIds.size(); i++){
-                if(roleIds.get(i) != adminRole.getRoleId()){
-                    Admin a = adminMapper.selectByPrimaryKey(admin.getPkId());
-                    jwtRedisDAO.delete(AdminConstant.JWT_TOKEN + a.getUkAccount());
+            // 修改管理员信息时，如果有修改角色，那就清空用户的token，让用户重新登录
+            if (!roleIds.isEmpty()) {
+                for (int i = 0; i < roleIds.size(); i++) {
+                    if (roleIds.get(i) != adminRole.getRoleId()) {
+                        Admin a = adminMapper.selectByPrimaryKey(admin.getId());
+                        jwtRedisDAO.delete(AdminConstant.JWT_TOKEN + a.getUserName());
+                    }
                 }
             }
         }
 
-        return ResultUtils.success(null);
+        return ResultUtils.success("编辑成功");
     }
 
     @Override
@@ -260,8 +278,8 @@ public class AdminServiceImpl implements AdminService {
         if (AdminConstant.PKID.equals(type)){
             Integer pkId = Integer.valueOf(keys);
             return ResultUtils.success(adminMapper.selectByPrimaryKey(pkId));
-        }else if (AdminConstant.UKACCOUNT.equals(type)){
-            return ResultUtils.success(adminMapper.getAdminByUkAccount(keys));
+        }else if (AdminConstant.USERNAME.equals(type)){
+            return ResultUtils.success(adminMapper.getAdminByUserName(keys));
         }
         return ResultUtils.error(ResultCodeEnum.ILLEGAL_ARGUMENT.getCode(),ResultCodeEnum.ILLEGAL_ARGUMENT.getMsg());
     }
@@ -278,8 +296,7 @@ public class AdminServiceImpl implements AdminService {
         domainMap.put(ParamConstant.PAGE_NUM,pageNum);
 
         List<Map> admins = adminMapper.listPage(domainMap);
-        for (Map map:admins
-             ) {
+        for (Map map:admins) {
             map.put("createTime", DateUtil.parseDate((Date) map.get("createTime")));
         }
         int count = adminMapper.countPage(domainMap);
@@ -290,27 +307,24 @@ public class AdminServiceImpl implements AdminService {
 
     // ********* 自定义 封装功能函数 ***********
 
-    public Admin formatAdmin(AdminRequest adminRequest, Date currentDate){
+    public Admin formatAdmin(Admin admin, Date currentDate){
 
-        Date date = currentDate;
+        if(admin.getIsAudit() == 1){
+            admin.setAuditStatus(0);// 待审核
+            admin.setStatus(1);// 默认禁用
+        }else{
+            admin.setIsAudit(0); // 无需审核
+            admin.setAuditStatus(1);// 默认审核通过
+            admin.setStatus(0);// 默认启用
+        }
 
-        // 初始化 管理员
-        Admin admin = new Admin();
-        admin.setUkAccount(adminRequest.getUkAccount());
-        admin.setNickname(adminRequest.getNickname());
-        admin.setPhone(adminRequest.getPhone());
-        admin.setEmail(adminRequest.getEmail());
-        admin.setAvatar(adminRequest.getAvatar());
-        admin.setAddress(adminRequest.getAddress());
-        admin.setStatus(0);
-        admin.setDeleteFlag(0);
-        admin.setCreateTime(date);
-        admin.setSortTime(date);
+        admin.setDelStatus(0);
+        admin.setCreateTime(currentDate);
 
         // 生成盐值 加密密码 并持久化管理员信息
         String salt = EncryptUtils.createSalt();
-        String newPass = EncryptUtils.encrypt("123456", salt);// 设置默认密码
-        String authenticator = EncryptUtils.encrypt(adminRequest.getUkAccount(), salt);      // 散列加密（account + salt） 用于 shiro 的身份认证
+        String newPass = EncryptUtils.encrypt(admin.getPassword(), salt);
+        String authenticator = EncryptUtils.encrypt(admin.getUserName(), salt);      // 散列加密（userName + salt） 用于 shiro 的身份认证
         admin.setPassword(newPass);
         admin.setSalt(salt);
         admin.setAuthenticator(authenticator);
@@ -342,11 +356,15 @@ public class AdminServiceImpl implements AdminService {
         if(admin.getStatus() == 0){// 设置禁用
             admin.setStatus(1);
         }else{ //设置启用
-            admin.setStatus(0);
+            if(admin.getAuditStatus() == 1){
+                admin.setStatus(0);
+            }else{
+                ResultUtils.error(1,"请先审核通过，才能启用");
+            }
         }
         adminMapper.updateByPrimaryKeySelective(admin);
 
-        jwtRedisDAO.delete(AdminConstant.JWT_TOKEN + admin.getUkAccount());
+        jwtRedisDAO.delete(AdminConstant.JWT_TOKEN + admin.getUserName());
 
         return ResultUtils.success(admin);
     }
@@ -373,5 +391,25 @@ public class AdminServiceImpl implements AdminService {
         admin.setPassword(newPass);
         adminMapper.updateByPrimaryKeySelective(admin);
         return ResultUtils.success("密码重置成功");
+    }
+
+    @Override
+    public Admin findByEmail(String email) {
+        Admin admin = adminMapper.selectByEmail(email);
+        return admin;
+    }
+
+    @Override
+    public RestResult resetPassword(String userName, String newPassword) {
+        Admin admin = adminMapper.selectByUserName(userName);
+        if(admin == null){
+            return ResultUtils.error(1,"用户名输入错误");
+        }
+        String salt = admin.getSalt();
+        String newPass = EncryptUtils.encrypt(newPassword, salt);
+        admin.setPassword(newPass);
+        adminMapper.updateByPrimaryKeySelective(admin);
+
+        return ResultUtils.success("密码修改成功");
     }
 }

@@ -1,7 +1,6 @@
 package com.bh.system.service;
 
-import com.bh.system.params.AdminRequest;
-import com.bh.system.params.AdminUpdateRequest;
+import com.bh.model.domain.Admin;
 import com.bh.common.result.RestResult;
 
 import java.util.List;
@@ -31,10 +30,10 @@ public interface AdminService {
 
     /**
      * 添加 管理员
-     * @param adminRequest
+     * @param admin
      * @return
      */
-    RestResult saveAdmin(AdminRequest adminRequest);
+    RestResult saveAdmin(Admin admin);
 
 
     /**
@@ -42,15 +41,15 @@ public interface AdminService {
      * @param admins
      * @return
      */
-    RestResult saveBatch(List<AdminRequest> admins);
+    RestResult saveBatch(List<Admin> admins);
 
 
     /**
      * 根据 pkId  删除管理员
-     * @param pkIds
+     * @param ids
      * @return
      */
-    RestResult deleteAdmin(List<Integer> pkIds);
+    RestResult deleteAdmin(List<Integer> ids);
 
 
     /**
@@ -58,7 +57,7 @@ public interface AdminService {
      * @param admin
      * @return
      */
-    RestResult updateAdmin(AdminUpdateRequest admin);
+    RestResult updateAdmin(Admin admin);
 
 
     /**
@@ -82,23 +81,38 @@ public interface AdminService {
 
     /**
      * 修改管理员状态
-     * @param pkId
+     * @param id
      * @return
      */
-    RestResult setStatus(Integer pkId);
+    RestResult setStatus(Integer id);
 
     /**
      * 修改密码
-     * @param pkId
+     * @param id
      * @param newPassword
      * @return
      */
-    RestResult changePassword(Integer pkId, String oldPassword, String newPassword);
+    RestResult changePassword(Integer id, String oldPassword, String newPassword);
 
     /**
      * 重置密码
-     * @param pkId
+     * @param id
      * @return
      */
-    RestResult resetPassword(Integer pkId);
+    RestResult resetPassword(Integer id);
+
+    /**
+     * 通过邮箱获取用户，看该邮箱是否已注册
+     * @param email
+     * @return
+     */
+    Admin findByEmail(String email);
+
+    /**
+     * 重新设置密码
+     * @param userName
+     * @param newPassword
+     * @return
+     */
+    RestResult resetPassword(String userName, String newPassword);
 }

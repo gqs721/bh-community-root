@@ -1,14 +1,14 @@
 package com.bh.model.domain;
 
 public class Generator {
-    private Integer pkId;
+    private Integer id;
 
-    public Integer getPkId() {
-        return pkId;
+    public Integer getId() {
+        return id;
     }
 
-    public void setPkId(Integer pkId) {
-        this.pkId = pkId;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     @Override
@@ -17,7 +17,7 @@ public class Generator {
         sb.append(getClass().getSimpleName());
         sb.append(" [");
         sb.append("Hash = ").append(hashCode());
-        sb.append(", pkId=").append(pkId);
+        sb.append(", id=").append(id);
         sb.append("]");
         return sb.toString();
     }
