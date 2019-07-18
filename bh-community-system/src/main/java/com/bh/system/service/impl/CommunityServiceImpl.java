@@ -36,11 +36,23 @@ public class CommunityServiceImpl implements CommunityService {
     @Autowired
     private CommunityMapper communityMapper;
 
+    private PropertyManagementMapper propertyManagementMapper;
+
     @Autowired
     private JWTRedisDAO jwtRedisDAO;
 
     @Override
     public RestResult saveCommunity(Community community) {
+
+        List<PropertyManagement> pmList = propertyManagementMapper.getAll();
+
+        if(pmList.isEmpty()){
+            return ResultUtils.error(1,"请先添加物业信息");
+        }
+
+        PropertyManagement pm = pmList.get(0);
+        community.setPmId(pm.getId());
+        community.setPmName(pm.getPmName());
 
         Date date = DateUtil.getCurrentDate();
 

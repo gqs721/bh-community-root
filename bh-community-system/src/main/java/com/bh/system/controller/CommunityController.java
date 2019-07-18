@@ -47,6 +47,7 @@ public class CommunityController {
      * @param result
      * @return
      */
+    @MyLog(value="新增小区信息")
     @ApiOperation(value = "小区保存接口", notes = "小区保存")
     @RequestMapping(value = "/save", method = RequestMethod.POST)
     public RestResult save(Community community, BindingResult result) {
@@ -59,6 +60,7 @@ public class CommunityController {
      * @param map
      * @return
      */
+    @MyLog(value="删除小区")
     @ApiOperation(value = "小区批量删除接口", notes = "小区批量删除，逻辑删除")
     @RequestMapping(value = "/delete",method = RequestMethod.POST)
     public RestResult delete(@RequestBody Map map){
@@ -73,6 +75,7 @@ public class CommunityController {
      * @param result
      * @return
      */
+    @MyLog(value="删除小区信息")
     @ApiOperation(value = "修改小区信息接口", notes = "修改小区信息")
     @RequestMapping(value = "/update",method = RequestMethod.POST)
     public RestResult update(Community community, BindingResult result){
@@ -86,6 +89,7 @@ public class CommunityController {
      * @param id
      * @return
      */
+    @MyLog(value="修改小区状态（禁用或启用）")
     @RequestMapping(value = "/setStatus",method = RequestMethod.GET)
     @ApiOperation(value = "修改小区状态接口", notes = "修改小区状态（禁用和启用）")
     public RestResult setStatus(@RequestParam Integer id){
@@ -100,7 +104,7 @@ public class CommunityController {
      */
     @ApiOperation(value = "获取小区信息接口", notes = "获取小区信息")
     @RequestMapping(value = "/get",method = RequestMethod.GET)
-    public RestResult getAdmin( @RequestParam int id){
+    public RestResult get( @RequestParam int id){
         return communityService.getCommunity(id);
     }
 

@@ -1,5 +1,6 @@
 package com.bh.system.controller;
 
+import com.bh.common.aop.MyLog;
 import com.bh.common.result.RestResult;
 import com.bh.common.utils.PageUtils;
 import com.bh.model.domain.PropertyManagement;
@@ -32,6 +33,7 @@ public class PropertyManagementController {
      * @param propertyManagement
      * @return
      */
+    @MyLog(value="添加物业信息")
     @ApiOperation(value = "添加物业信息接口", notes = "添加物业信息")
     @RequestMapping(value = "/save",method = RequestMethod.POST)
     public RestResult save(PropertyManagement propertyManagement){
@@ -44,6 +46,7 @@ public class PropertyManagementController {
      * @param map
      * @return
      */
+    @MyLog(value="删除物业信息")
     @ApiOperation(value = "批量删除 删除物业信息接口", notes = "批量删除 删除物业信息")
     @RequestMapping(value = "/delete",method = RequestMethod.POST)
     public RestResult delete(@RequestBody Map map){
@@ -57,6 +60,7 @@ public class PropertyManagementController {
      * @param propertyManagement
      * @return
      */
+    @MyLog(value="修改物业信息")
     @ApiOperation(value = "修改物业信息接口", notes = "修改物业信息")
     @RequestMapping(value = "/update",method = RequestMethod.POST)
     public RestResult update(PropertyManagement propertyManagement){

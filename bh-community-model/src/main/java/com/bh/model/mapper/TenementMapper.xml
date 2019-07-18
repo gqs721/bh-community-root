@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bh.model.dao.TenementMapper">
+  <resultMap id="BaseResultMap" type="com.bh.model.domain.Tenement">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="build_id" jdbcType="INTEGER" property="buildId" />
+    <result column="voice_id" jdbcType="INTEGER" property="voiceId" />
+    <result column="tenement_pic" jdbcType="VARCHAR" property="tenementPic" />
+    <result column="tenement_name" jdbcType="VARCHAR" property="tenementName" />
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
+    <result column="by_staging" jdbcType="VARCHAR" property="byStaging" />
+    <result column="building" jdbcType="VARCHAR" property="building" />
+    <result column="unit" jdbcType="VARCHAR" property="unit" />
+    <result column="tenement_type" jdbcType="INTEGER" property="tenementType" />
+    <result column="room_number" jdbcType="INTEGER" property="roomNumber" />
+    <result column="welcome_info" jdbcType="VARCHAR" property="welcomeInfo" />
+    <result column="voice" jdbcType="VARCHAR" property="voice" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="del_status" jdbcType="INTEGER" property="delStatus" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, build_id, voice_id, tenement_pic, tenement_name, phone, by_staging, building, 
+    unit, tenement_type, room_number, welcome_info, voice, status, del_status, create_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from bh_tenement
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from bh_tenement
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.bh.model.domain.Tenement">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into bh_tenement (build_id, voice_id, tenement_pic, 
+      tenement_name, phone, by_staging, 
+      building, unit, tenement_type, 
+      room_number, welcome_info, voice, 
+      status, del_status, create_time
+      )
+    values (#{buildId,jdbcType=INTEGER}, #{voiceId,jdbcType=INTEGER}, #{tenementPic,jdbcType=VARCHAR}, 
+      #{tenementName,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, #{byStaging,jdbcType=VARCHAR}, 
+      #{building,jdbcType=VARCHAR}, #{unit,jdbcType=VARCHAR}, #{tenementType,jdbcType=INTEGER}, 
+      #{roomNumber,jdbcType=INTEGER}, #{welcomeInfo,jdbcType=VARCHAR}, #{voice,jdbcType=VARCHAR}, 
+      #{status,jdbcType=INTEGER}, #{delStatus,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.bh.model.domain.Tenement">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into bh_tenement
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="buildId != null">
+        build_id,
+      </if>
+      <if test="voiceId != null">
+        voice_id,
+      </if>
+      <if test="tenementPic != null">
+        tenement_pic,
+      </if>
+      <if test="tenementName != null">
+        tenement_name,
+      </if>
+      <if test="phone != null">
+        phone,
+      </if>
+      <if test="byStaging != null">
+        by_staging,
+      </if>
+      <if test="building != null">
+        building,
+      </if>
+      <if test="unit != null">
+        unit,
+      </if>
+      <if test="tenementType != null">
+        tenement_type,
+      </if>
+      <if test="roomNumber != null">
+        room_number,
+      </if>
+      <if test="welcomeInfo != null">
+        welcome_info,
+      </if>
+      <if test="voice != null">
+        voice,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="delStatus != null">
+        del_status,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="buildId != null">
+        #{buildId,jdbcType=INTEGER},
+      </if>
+      <if test="voiceId != null">
+        #{voiceId,jdbcType=INTEGER},
+      </if>
+      <if test="tenementPic != null">
+        #{tenementPic,jdbcType=VARCHAR},
+      </if>
+      <if test="tenementName != null">
+        #{tenementName,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null">
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="byStaging != null">
+        #{byStaging,jdbcType=VARCHAR},
+      </if>
+      <if test="building != null">
+        #{building,jdbcType=VARCHAR},
+      </if>
+      <if test="unit != null">
+        #{unit,jdbcType=VARCHAR},
+      </if>
+      <if test="tenementType != null">
+        #{tenementType,jdbcType=INTEGER},
+      </if>
+      <if test="roomNumber != null">
+        #{roomNumber,jdbcType=INTEGER},
+      </if>
+      <if test="welcomeInfo != null">
+        #{welcomeInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="voice != null">
+        #{voice,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="delStatus != null">
+        #{delStatus,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bh.model.domain.Tenement">
+    update bh_tenement
+    <set>
+      <if test="buildId != null">
+        build_id = #{buildId,jdbcType=INTEGER},
+      </if>
+      <if test="voiceId != null">
+        voice_id = #{voiceId,jdbcType=INTEGER},
+      </if>
+      <if test="tenementPic != null">
+        tenement_pic = #{tenementPic,jdbcType=VARCHAR},
+      </if>
+      <if test="tenementName != null">
+        tenement_name = #{tenementName,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null">
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="byStaging != null">
+        by_staging = #{byStaging,jdbcType=VARCHAR},
+      </if>
+      <if test="building != null">
+        building = #{building,jdbcType=VARCHAR},
+      </if>
+      <if test="unit != null">
+        unit = #{unit,jdbcType=VARCHAR},
+      </if>
+      <if test="tenementType != null">
+        tenement_type = #{tenementType,jdbcType=INTEGER},
+      </if>
+      <if test="roomNumber != null">
+        room_number = #{roomNumber,jdbcType=INTEGER},
+      </if>
+      <if test="welcomeInfo != null">
+        welcome_info = #{welcomeInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="voice != null">
+        voice = #{voice,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="delStatus != null">
+        del_status = #{delStatus,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bh.model.domain.Tenement">
+    update bh_tenement
+    set build_id = #{buildId,jdbcType=INTEGER},
+      voice_id = #{voiceId,jdbcType=INTEGER},
+      tenement_pic = #{tenementPic,jdbcType=VARCHAR},
+      tenement_name = #{tenementName,jdbcType=VARCHAR},
+      phone = #{phone,jdbcType=VARCHAR},
+      by_staging = #{byStaging,jdbcType=VARCHAR},
+      building = #{building,jdbcType=VARCHAR},
+      unit = #{unit,jdbcType=VARCHAR},
+      tenement_type = #{tenementType,jdbcType=INTEGER},
+      room_number = #{roomNumber,jdbcType=INTEGER},
+      welcome_info = #{welcomeInfo,jdbcType=VARCHAR},
+      voice = #{voice,jdbcType=VARCHAR},
+      status = #{status,jdbcType=INTEGER},
+      del_status = #{delStatus,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <!-- ********* 自定义 *********** -->
+  <!-- 住户 -->
+  <resultMap id="TenementResultMap" type="java.util.HashMap">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="build_id" jdbcType="INTEGER" property="buildId" />
+    <result column="voice_id" jdbcType="INTEGER" property="voiceId" />
+    <result column="tenement_pic" jdbcType="VARCHAR" property="tenementPic" />
+    <result column="tenement_name" jdbcType="VARCHAR" property="tenementName" />
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
+    <result column="by_staging" jdbcType="VARCHAR" property="byStaging" />
+    <result column="building" jdbcType="VARCHAR" property="building" />
+    <result column="unit" jdbcType="VARCHAR" property="unit" />
+    <result column="tenement_type" jdbcType="INTEGER" property="tenementType" />
+    <result column="room_number" jdbcType="INTEGER" property="roomNumber" />
+    <result column="welcome_info" jdbcType="VARCHAR" property="welcomeInfo" />
+    <result column="voice" jdbcType="VARCHAR" property="voice" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="del_status" jdbcType="INTEGER" property="delStatus" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+  </resultMap>
+
+  <!-- 批量删除 逻辑删除-->
+  <update id="deleteBatch" parameterType="java.lang.Integer">
+    update bh_tenement
+    set del_status=1
+    where id in
+    <foreach collection="array" index="index" item="item"
+             separator="," open="(" close=")">
+      #{item}
+    </foreach>
+  </update>
+
+  <!-- 数据列表 -->
+  <select id="listPage" parameterType="java.util.HashMap" resultMap="TenementResultMap">
+    select
+    sa.id,
+    sa.build_id,
+    sa.voice_id,
+    sa.tenement_pic,
+    sa.tenement_name,
+    sa.phone,
+    sa.by_staging,
+    sa.building,
+    sa.unit,
+    sa.tenement_type,
+    sa.room_number,
+    sa.welcome_info,
+    sa.voice,
+    sa.status,
+    sa.del_status,
+    sa.create_time
+    from bh_tenement as sa
+    <trim prefix="WHERE" prefixOverrides="AND|OR">
+      sa.del_status=0
+      <if test="tenementType != null and tenementType != ''">
+        AND sa.tenement_type = #{tenementType}
+      </if>
+      <if test="keyword != null and keyword != ''">
+        AND ( sa.tenement_name LIKE CONCAT('%', #{keyword}, '%'))
+      </if>
+    </trim>
+    order by create_time DESC
+    <if test="pageNum != null and pageSize != null">
+      LIMIT #{pageNum},#{pageSize}
+    </if>
+  </select>
+
+  <!-- 分页数量统计 -->
+  <select id="countPage" parameterType="java.util.HashMap" resultType="java.lang.Integer">
+    select
+    count(1)
+    from bh_tenement as sa
+    <trim prefix="WHERE" prefixOverrides="AND|OR">
+      sa.del_status=0
+      <if test="tenementType != null and tenementType != ''">
+        AND sa.tenement_type = #{tenementType}
+      </if>
+      <if test="keyword != null and keyword != ''">
+        AND ( sa.tenement_name LIKE CONCAT('%', #{keyword}, '%'))
+      </if>
+    </trim>
+  </select>
+</mapper>

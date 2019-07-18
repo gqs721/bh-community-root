@@ -86,12 +86,12 @@ public class ShiroConfig {
         // 因为 管理员登录模块 和 用户管理模块 有命名冲突，规范 管理员登录 即：sys
         filterChainDefinitionMap.put("/sys/admin/login", "anon");
 //        filterChainDefinitionMap.put("/sys/admin/save", "anon");
-        filterChainDefinitionMap.put("/sys/admin/registerSave", "anon");
-        filterChainDefinitionMap.put("/sys/admin/image", "anon");
-        filterChainDefinitionMap.put("/sys/admin/sendMail", "anon");
-        filterChainDefinitionMap.put("/sys/admin/verifyMail", "anon");
-        filterChainDefinitionMap.put("/sys/admin/verifyMailCode", "anon");
-        filterChainDefinitionMap.put("/sys/admin/resetPassword", "anon");
+        filterChainDefinitionMap.put("/sys/admin/registerSave", "anon");// 注册管理员
+        filterChainDefinitionMap.put("/sys/admin/image", "anon");// 获取图片验证码
+        filterChainDefinitionMap.put("/sys/admin/sendMail", "anon");// 发送邮箱验证码
+        filterChainDefinitionMap.put("/sys/admin/verifyMail", "anon");// 验证邮箱是否注册
+        filterChainDefinitionMap.put("/sys/admin/verifyMailCode", "anon");// 验证邮箱验证码
+        filterChainDefinitionMap.put("/sys/admin/resetPassword", "anon");// 忘记密码的重置密码
         filterChainDefinitionMap.put("/druid/**", "anon");
         //swagger接口权限 开放
         filterChainDefinitionMap.put("/swagger-ui.html", "anon");
@@ -100,6 +100,12 @@ public class ShiroConfig {
         filterChainDefinitionMap.put("/swagger-resources/**", "anon");
         filterChainDefinitionMap.put("/configuration/security", "anon");
         filterChainDefinitionMap.put("/configuration/ui", "anon");
+
+        filterChainDefinitionMap.put("/tenement/clientSave", "anon");// 客户端添加住户
+        filterChainDefinitionMap.put("/building/findTreeByCommunityId", "anon");// 获取小区下的分期、楼栋、单元的树形结构数据
+        filterChainDefinitionMap.put("/tenement/passRecord/save", "anon");// 客户端添加住户进出记录
+        filterChainDefinitionMap.put("/visitor/passRecord/save", "anon");// 客户端添加访客进出记录
+
 
 //        filterChainDefinitionMap.put("/sys/logout", "logout");
 
