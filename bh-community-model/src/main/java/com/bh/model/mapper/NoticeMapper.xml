@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bh.model.dao.NoticeMapper">
+  <resultMap id="BaseResultMap" type="com.bh.model.domain.Notice">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="community_id" jdbcType="INTEGER" property="communityId" />
+    <result column="notice_content" jdbcType="VARCHAR" property="noticeContent" />
+    <result column="timing_play" jdbcType="INTEGER" property="timingPlay" />
+    <result column="begin_time" jdbcType="TIMESTAMP" property="beginTime" />
+    <result column="end_time" jdbcType="TIMESTAMP" property="endTime" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="schedule" jdbcType="INTEGER" property="schedule" />
+    <result column="del_status" jdbcType="INTEGER" property="delStatus" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, community_id, notice_content, timing_play, begin_time, end_time, status, schedule, 
+    del_status, create_time, update_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from bh_notice
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from bh_notice
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.bh.model.domain.Notice">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into bh_notice (community_id, notice_content, timing_play, 
+      begin_time, end_time, status, 
+      schedule, del_status, create_time, 
+      update_time)
+    values (#{communityId,jdbcType=INTEGER}, #{noticeContent,jdbcType=VARCHAR}, #{timingPlay,jdbcType=INTEGER}, 
+      #{beginTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER}, 
+      #{schedule,jdbcType=INTEGER}, #{delStatus,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.bh.model.domain.Notice">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into bh_notice
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="communityId != null">
+        community_id,
+      </if>
+      <if test="noticeContent != null">
+        notice_content,
+      </if>
+      <if test="timingPlay != null">
+        timing_play,
+      </if>
+      <if test="beginTime != null">
+        begin_time,
+      </if>
+      <if test="endTime != null">
+        end_time,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="schedule != null">
+        schedule,
+      </if>
+      <if test="delStatus != null">
+        del_status,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="communityId != null">
+        #{communityId,jdbcType=INTEGER},
+      </if>
+      <if test="noticeContent != null">
+        #{noticeContent,jdbcType=VARCHAR},
+      </if>
+      <if test="timingPlay != null">
+        #{timingPlay,jdbcType=INTEGER},
+      </if>
+      <if test="beginTime != null">
+        #{beginTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null">
+        #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="schedule != null">
+        #{schedule,jdbcType=INTEGER},
+      </if>
+      <if test="delStatus != null">
+        #{delStatus,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bh.model.domain.Notice">
+    update bh_notice
+    <set>
+      <if test="communityId != null">
+        community_id = #{communityId,jdbcType=INTEGER},
+      </if>
+      <if test="noticeContent != null">
+        notice_content = #{noticeContent,jdbcType=VARCHAR},
+      </if>
+      <if test="timingPlay != null">
+        timing_play = #{timingPlay,jdbcType=INTEGER},
+      </if>
+      <if test="beginTime != null">
+        begin_time = #{beginTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null">
+        end_time = #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="schedule != null">
+        schedule = #{schedule,jdbcType=INTEGER},
+      </if>
+      <if test="delStatus != null">
+        del_status = #{delStatus,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bh.model.domain.Notice">
+    update bh_notice
+    set community_id = #{communityId,jdbcType=INTEGER},
+      notice_content = #{noticeContent,jdbcType=VARCHAR},
+      timing_play = #{timingPlay,jdbcType=INTEGER},
+      begin_time = #{beginTime,jdbcType=TIMESTAMP},
+      end_time = #{endTime,jdbcType=TIMESTAMP},
+      status = #{status,jdbcType=INTEGER},
+      schedule = #{schedule,jdbcType=INTEGER},
+      del_status = #{delStatus,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <!-- ********* 自定义 *********** -->
+  <!-- 公告 -->
+  <resultMap id="NoticeResultMap" type="java.util.HashMap">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="community_id" jdbcType="INTEGER" property="communityId" />
+    <result column="notice_content" jdbcType="VARCHAR" property="noticeContent" />
+    <result column="timing_play" jdbcType="INTEGER" property="timingPlay" />
+    <result column="begin_time" jdbcType="TIMESTAMP" property="beginTime" />
+    <result column="end_time" jdbcType="TIMESTAMP" property="endTime" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="schedule" jdbcType="INTEGER" property="schedule" />
+    <result column="del_status" jdbcType="INTEGER" property="delStatus" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+
+  <!-- 批量删除 逻辑删除-->
+  <update id="deleteBatch" parameterType="java.lang.Integer">
+    update bh_notice
+    set del_status=1
+    where id in
+    <foreach collection="array" index="index" item="item"
+             separator="," open="(" close=")">
+      #{item}
+    </foreach>
+  </update>
+
+  <!-- 数据列表 -->
+  <select id="listPage" parameterType="java.util.HashMap" resultMap="NoticeResultMap">
+    select
+    sa.id,
+    sa.community_id,
+    sa.notice_content,
+    sa.timing_play,
+    sa.begin_time,
+    sa.end_time,
+    sa.schedule,
+    sa.status,
+    sa.del_status,
+    sa.create_time
+    from bh_notice as sa
+    <trim prefix="WHERE" prefixOverrides="AND|OR">
+      sa.del_status=0
+      <if test="schedule != null and schedule != '' and schedule != 0">
+        AND sa.schedule = #{schedule}
+      </if>
+      <if test="beginDate != null and beginDate != ''">
+        AND sa.begin_time >= #{beginDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="endDate != null and endDate != ''">
+        <![CDATA[ AND sa.end_time <= concat(#{endDate,jdbcType=TIMESTAMP},' 23:59:59') ]]>
+      </if>
+    </trim>
+    order by create_time DESC
+    <if test="pageNum != null and pageSize != null">
+      LIMIT #{pageNum},#{pageSize}
+    </if>
+  </select>
+
+  <!-- 分页数量统计 -->
+  <select id="countPage" parameterType="java.util.HashMap" resultType="java.lang.Integer">
+    select
+    count(1)
+    from bh_notice as sa
+    <trim prefix="WHERE" prefixOverrides="AND|OR">
+      sa.del_status=0
+      <if test="schedule != null and schedule != '' and schedule != 0">
+        AND sa.schedule = #{schedule}
+      </if>
+      <if test="beginDate != null and beginDate != ''">
+        AND sa.begin_time >= #{beginDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="endDate != null and endDate != ''">
+        <![CDATA[ AND sa.end_time <= concat(#{endDate,jdbcType=TIMESTAMP},' 23:59:59') ]]>
+      </if>
+    </trim>
+  </select>
+</mapper>

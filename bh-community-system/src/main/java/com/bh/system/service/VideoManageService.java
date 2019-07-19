@@ -1,7 +1,7 @@
 package com.bh.system.service;
 
 import com.bh.common.result.RestResult;
-import com.bh.model.domain.TenementPassRecord;
+import com.bh.model.domain.VideoManage;
 import com.bh.model.domain.VisitorPassRecord;
 
 import java.util.List;
@@ -9,17 +9,17 @@ import java.util.List;
 /**
  * Created by Mr.BH
  */
-public interface VisitorPassRecordService {
+public interface VideoManageService {
 
     /**
-     * 添加访客进出记录
-     * @param visitorPassRecord
+     * 添加视频记录
+     * @param videoManage
      * @return
      */
-    RestResult save(VisitorPassRecord visitorPassRecord);
+    RestResult save(VideoManage videoManage);
 
     /**
-     * 删除访客进出记录
+     * 删除视频记录
      * @param ids
      * @return
      */
@@ -27,7 +27,7 @@ public interface VisitorPassRecordService {
 
 
     /**
-     * 访客进出记录列表
+     * 视频管理列表
      * @param keyword
      * @param beginDate
      * @param endDate

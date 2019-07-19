@@ -22,7 +22,7 @@ import java.util.Map;
  */
 @RestController
 @RequestMapping("/property/management")
-@Api(value = "物业管理api", description="物业管理api")
+@Api(tags = "物业接口API", description="物业管理")
 public class PropertyManagementController {
 
     @Autowired

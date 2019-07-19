@@ -20,7 +20,7 @@ import java.util.Map;
  */
 @RestController
 @RequestMapping(value = "/reservation/record")
-@Api(value = "预约记录管理api", description="预约记录管理api")
+@Api(tags = "预约记录接口API", description="预约记录管理")
 public class ReservationRecordController {
 
     @Autowired

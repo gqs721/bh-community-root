@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bh.model.dao.MonitorAidsMapper">
+  <resultMap id="BaseResultMap" type="com.bh.model.domain.MonitorAids">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="community_id" jdbcType="INTEGER" property="communityId" />
+    <result column="monitor_name" jdbcType="VARCHAR" property="monitorName" />
+    <result column="monitor_type" jdbcType="INTEGER" property="monitorType" />
+    <result column="monitor_account" jdbcType="VARCHAR" property="monitorAccount" />
+    <result column="monitor_password" jdbcType="VARCHAR" property="monitorPassword" />
+    <result column="manufacturer" jdbcType="VARCHAR" property="manufacturer" />
+    <result column="resolution_ratio" jdbcType="VARCHAR" property="resolutionRatio" />
+    <result column="visit_address" jdbcType="VARCHAR" property="visitAddress" />
+    <result column="distinguish_content" jdbcType="VARCHAR" property="distinguishContent" />
+    <result column="installation_site" jdbcType="VARCHAR" property="installationSite" />
+    <result column="sort" jdbcType="INTEGER" property="sort" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="del_status" jdbcType="INTEGER" property="delStatus" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, community_id, monitor_name, monitor_type, monitor_account, monitor_password, 
+    manufacturer, resolution_ratio, visit_address, distinguish_content, installation_site, 
+    sort, status, del_status, create_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from bh_monitor_aids
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from bh_monitor_aids
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.bh.model.domain.MonitorAids">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into bh_monitor_aids (community_id, monitor_name, monitor_type, 
+      monitor_account, monitor_password, manufacturer, 
+      resolution_ratio, visit_address, distinguish_content, 
+      installation_site, sort, status, 
+      del_status, create_time)
+    values (#{communityId,jdbcType=INTEGER}, #{monitorName,jdbcType=VARCHAR}, #{monitorType,jdbcType=INTEGER}, 
+      #{monitorAccount,jdbcType=VARCHAR}, #{monitorPassword,jdbcType=VARCHAR}, #{manufacturer,jdbcType=VARCHAR}, 
+      #{resolutionRatio,jdbcType=VARCHAR}, #{visitAddress,jdbcType=VARCHAR}, #{distinguishContent,jdbcType=VARCHAR}, 
+      #{installationSite,jdbcType=VARCHAR}, #{sort,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, 
+      #{delStatus,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.bh.model.domain.MonitorAids">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into bh_monitor_aids
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="communityId != null">
+        community_id,
+      </if>
+      <if test="monitorName != null">
+        monitor_name,
+      </if>
+      <if test="monitorType != null">
+        monitor_type,
+      </if>
+      <if test="monitorAccount != null">
+        monitor_account,
+      </if>
+      <if test="monitorPassword != null">
+        monitor_password,
+      </if>
+      <if test="manufacturer != null">
+        manufacturer,
+      </if>
+      <if test="resolutionRatio != null">
+        resolution_ratio,
+      </if>
+      <if test="visitAddress != null">
+        visit_address,
+      </if>
+      <if test="distinguishContent != null">
+        distinguish_content,
+      </if>
+      <if test="installationSite != null">
+        installation_site,
+      </if>
+      <if test="sort != null">
+        sort,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="delStatus != null">
+        del_status,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="communityId != null">
+        #{communityId,jdbcType=INTEGER},
+      </if>
+      <if test="monitorName != null">
+        #{monitorName,jdbcType=VARCHAR},
+      </if>
+      <if test="monitorType != null">
+        #{monitorType,jdbcType=INTEGER},
+      </if>
+      <if test="monitorAccount != null">
+        #{monitorAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="monitorPassword != null">
+        #{monitorPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="manufacturer != null">
+        #{manufacturer,jdbcType=VARCHAR},
+      </if>
+      <if test="resolutionRatio != null">
+        #{resolutionRatio,jdbcType=VARCHAR},
+      </if>
+      <if test="visitAddress != null">
+        #{visitAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="distinguishContent != null">
+        #{distinguishContent,jdbcType=VARCHAR},
+      </if>
+      <if test="installationSite != null">
+        #{installationSite,jdbcType=VARCHAR},
+      </if>
+      <if test="sort != null">
+        #{sort,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="delStatus != null">
+        #{delStatus,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bh.model.domain.MonitorAids">
+    update bh_monitor_aids
+    <set>
+      <if test="communityId != null">
+        community_id = #{communityId,jdbcType=INTEGER},
+      </if>
+      <if test="monitorName != null">
+        monitor_name = #{monitorName,jdbcType=VARCHAR},
+      </if>
+      <if test="monitorType != null">
+        monitor_type = #{monitorType,jdbcType=INTEGER},
+      </if>
+      <if test="monitorAccount != null">
+        monitor_account = #{monitorAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="monitorPassword != null">
+        monitor_password = #{monitorPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="manufacturer != null">
+        manufacturer = #{manufacturer,jdbcType=VARCHAR},
+      </if>
+      <if test="resolutionRatio != null">
+        resolution_ratio = #{resolutionRatio,jdbcType=VARCHAR},
+      </if>
+      <if test="visitAddress != null">
+        visit_address = #{visitAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="distinguishContent != null">
+        distinguish_content = #{distinguishContent,jdbcType=VARCHAR},
+      </if>
+      <if test="installationSite != null">
+        installation_site = #{installationSite,jdbcType=VARCHAR},
+      </if>
+      <if test="sort != null">
+        sort = #{sort,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="delStatus != null">
+        del_status = #{delStatus,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bh.model.domain.MonitorAids">
+    update bh_monitor_aids
+    set community_id = #{communityId,jdbcType=INTEGER},
+      monitor_name = #{monitorName,jdbcType=VARCHAR},
+      monitor_type = #{monitorType,jdbcType=INTEGER},
+      monitor_account = #{monitorAccount,jdbcType=VARCHAR},
+      monitor_password = #{monitorPassword,jdbcType=VARCHAR},
+      manufacturer = #{manufacturer,jdbcType=VARCHAR},
+      resolution_ratio = #{resolutionRatio,jdbcType=VARCHAR},
+      visit_address = #{visitAddress,jdbcType=VARCHAR},
+      distinguish_content = #{distinguishContent,jdbcType=VARCHAR},
+      installation_site = #{installationSite,jdbcType=VARCHAR},
+      sort = #{sort,jdbcType=INTEGER},
+      status = #{status,jdbcType=INTEGER},
+      del_status = #{delStatus,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

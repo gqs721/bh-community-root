@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bh.model.dao.BlacklistAlarmMapper">
+  <resultMap id="BaseResultMap" type="com.bh.model.domain.BlacklistAlarm">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="community_id" jdbcType="INTEGER" property="communityId" />
+    <result column="blacklist_id" jdbcType="INTEGER" property="blacklistId" />
+    <result column="monitor_id" jdbcType="INTEGER" property="monitorId" />
+    <result column="printscreen" jdbcType="VARCHAR" property="printscreen" />
+    <result column="monitor_name" jdbcType="VARCHAR" property="monitorName" />
+    <result column="installation_site" jdbcType="VARCHAR" property="installationSite" />
+    <result column="alarm_type" jdbcType="INTEGER" property="alarmType" />
+    <result column="blacklist_name" jdbcType="VARCHAR" property="blacklistName" />
+    <result column="blacklist_phone" jdbcType="VARCHAR" property="blacklistPhone" />
+    <result column="id_number" jdbcType="VARCHAR" property="idNumber" />
+    <result column="alarm_date" jdbcType="TIMESTAMP" property="alarmDate" />
+    <result column="alarm_time" jdbcType="VARCHAR" property="alarmTime" />
+    <result column="similarity" jdbcType="INTEGER" property="similarity" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="del_status" jdbcType="INTEGER" property="delStatus" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, community_id, blacklist_id, monitor_id, printscreen, monitor_name, installation_site, 
+    alarm_type, blacklist_name, blacklist_phone, id_number, alarm_date, alarm_time, similarity, 
+    status, del_status, create_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from bh_blacklist_alarm
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from bh_blacklist_alarm
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.bh.model.domain.BlacklistAlarm">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into bh_blacklist_alarm (community_id, blacklist_id, monitor_id, 
+      printscreen, monitor_name, installation_site, 
+      alarm_type, blacklist_name, blacklist_phone, 
+      id_number, alarm_date, alarm_time, 
+      similarity, status, del_status, 
+      create_time)
+    values (#{communityId,jdbcType=INTEGER}, #{blacklistId,jdbcType=INTEGER}, #{monitorId,jdbcType=INTEGER}, 
+      #{printscreen,jdbcType=VARCHAR}, #{monitorName,jdbcType=VARCHAR}, #{installationSite,jdbcType=VARCHAR}, 
+      #{alarmType,jdbcType=INTEGER}, #{blacklistName,jdbcType=VARCHAR}, #{blacklistPhone,jdbcType=VARCHAR}, 
+      #{idNumber,jdbcType=VARCHAR}, #{alarmDate,jdbcType=TIMESTAMP}, #{alarmTime,jdbcType=VARCHAR}, 
+      #{similarity,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, #{delStatus,jdbcType=INTEGER}, 
+      #{createTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.bh.model.domain.BlacklistAlarm">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into bh_blacklist_alarm
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="communityId != null">
+        community_id,
+      </if>
+      <if test="blacklistId != null">
+        blacklist_id,
+      </if>
+      <if test="monitorId != null">
+        monitor_id,
+      </if>
+      <if test="printscreen != null">
+        printscreen,
+      </if>
+      <if test="monitorName != null">
+        monitor_name,
+      </if>
+      <if test="installationSite != null">
+        installation_site,
+      </if>
+      <if test="alarmType != null">
+        alarm_type,
+      </if>
+      <if test="blacklistName != null">
+        blacklist_name,
+      </if>
+      <if test="blacklistPhone != null">
+        blacklist_phone,
+      </if>
+      <if test="idNumber != null">
+        id_number,
+      </if>
+      <if test="alarmDate != null">
+        alarm_date,
+      </if>
+      <if test="alarmTime != null">
+        alarm_time,
+      </if>
+      <if test="similarity != null">
+        similarity,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="delStatus != null">
+        del_status,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="communityId != null">
+        #{communityId,jdbcType=INTEGER},
+      </if>
+      <if test="blacklistId != null">
+        #{blacklistId,jdbcType=INTEGER},
+      </if>
+      <if test="monitorId != null">
+        #{monitorId,jdbcType=INTEGER},
+      </if>
+      <if test="printscreen != null">
+        #{printscreen,jdbcType=VARCHAR},
+      </if>
+      <if test="monitorName != null">
+        #{monitorName,jdbcType=VARCHAR},
+      </if>
+      <if test="installationSite != null">
+        #{installationSite,jdbcType=VARCHAR},
+      </if>
+      <if test="alarmType != null">
+        #{alarmType,jdbcType=INTEGER},
+      </if>
+      <if test="blacklistName != null">
+        #{blacklistName,jdbcType=VARCHAR},
+      </if>
+      <if test="blacklistPhone != null">
+        #{blacklistPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="idNumber != null">
+        #{idNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="alarmDate != null">
+        #{alarmDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="alarmTime != null">
+        #{alarmTime,jdbcType=VARCHAR},
+      </if>
+      <if test="similarity != null">
+        #{similarity,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="delStatus != null">
+        #{delStatus,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bh.model.domain.BlacklistAlarm">
+    update bh_blacklist_alarm
+    <set>
+      <if test="communityId != null">
+        community_id = #{communityId,jdbcType=INTEGER},
+      </if>
+      <if test="blacklistId != null">
+        blacklist_id = #{blacklistId,jdbcType=INTEGER},
+      </if>
+      <if test="monitorId != null">
+        monitor_id = #{monitorId,jdbcType=INTEGER},
+      </if>
+      <if test="printscreen != null">
+        printscreen = #{printscreen,jdbcType=VARCHAR},
+      </if>
+      <if test="monitorName != null">
+        monitor_name = #{monitorName,jdbcType=VARCHAR},
+      </if>
+      <if test="installationSite != null">
+        installation_site = #{installationSite,jdbcType=VARCHAR},
+      </if>
+      <if test="alarmType != null">
+        alarm_type = #{alarmType,jdbcType=INTEGER},
+      </if>
+      <if test="blacklistName != null">
+        blacklist_name = #{blacklistName,jdbcType=VARCHAR},
+      </if>
+      <if test="blacklistPhone != null">
+        blacklist_phone = #{blacklistPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="idNumber != null">
+        id_number = #{idNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="alarmDate != null">
+        alarm_date = #{alarmDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="alarmTime != null">
+        alarm_time = #{alarmTime,jdbcType=VARCHAR},
+      </if>
+      <if test="similarity != null">
+        similarity = #{similarity,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="delStatus != null">
+        del_status = #{delStatus,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bh.model.domain.BlacklistAlarm">
+    update bh_blacklist_alarm
+    set community_id = #{communityId,jdbcType=INTEGER},
+      blacklist_id = #{blacklistId,jdbcType=INTEGER},
+      monitor_id = #{monitorId,jdbcType=INTEGER},
+      printscreen = #{printscreen,jdbcType=VARCHAR},
+      monitor_name = #{monitorName,jdbcType=VARCHAR},
+      installation_site = #{installationSite,jdbcType=VARCHAR},
+      alarm_type = #{alarmType,jdbcType=INTEGER},
+      blacklist_name = #{blacklistName,jdbcType=VARCHAR},
+      blacklist_phone = #{blacklistPhone,jdbcType=VARCHAR},
+      id_number = #{idNumber,jdbcType=VARCHAR},
+      alarm_date = #{alarmDate,jdbcType=TIMESTAMP},
+      alarm_time = #{alarmTime,jdbcType=VARCHAR},
+      similarity = #{similarity,jdbcType=INTEGER},
+      status = #{status,jdbcType=INTEGER},
+      del_status = #{delStatus,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

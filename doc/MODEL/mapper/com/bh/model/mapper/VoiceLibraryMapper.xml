@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bh.model.dao.VoiceLibraryMapper">
+  <resultMap id="BaseResultMap" type="com.bh.model.domain.VoiceLibrary">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="community_id" jdbcType="INTEGER" property="communityId" />
+    <result column="voice_type" jdbcType="INTEGER" property="voiceType" />
+    <result column="alerting_text" jdbcType="VARCHAR" property="alertingText" />
+    <result column="voice_content" jdbcType="VARCHAR" property="voiceContent" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="voice_frequency" jdbcType="VARCHAR" property="voiceFrequency" />
+    <result column="del_status" jdbcType="INTEGER" property="delStatus" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, community_id, voice_type, alerting_text, voice_content, status, voice_frequency, 
+    del_status, create_time, update_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from bh_voice_library
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from bh_voice_library
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.bh.model.domain.VoiceLibrary">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into bh_voice_library (community_id, voice_type, alerting_text, 
+      voice_content, status, voice_frequency, 
+      del_status, create_time, update_time
+      )
+    values (#{communityId,jdbcType=INTEGER}, #{voiceType,jdbcType=INTEGER}, #{alertingText,jdbcType=VARCHAR}, 
+      #{voiceContent,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, #{voiceFrequency,jdbcType=VARCHAR}, 
+      #{delStatus,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.bh.model.domain.VoiceLibrary">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into bh_voice_library
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="communityId != null">
+        community_id,
+      </if>
+      <if test="voiceType != null">
+        voice_type,
+      </if>
+      <if test="alertingText != null">
+        alerting_text,
+      </if>
+      <if test="voiceContent != null">
+        voice_content,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="voiceFrequency != null">
+        voice_frequency,
+      </if>
+      <if test="delStatus != null">
+        del_status,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="communityId != null">
+        #{communityId,jdbcType=INTEGER},
+      </if>
+      <if test="voiceType != null">
+        #{voiceType,jdbcType=INTEGER},
+      </if>
+      <if test="alertingText != null">
+        #{alertingText,jdbcType=VARCHAR},
+      </if>
+      <if test="voiceContent != null">
+        #{voiceContent,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="voiceFrequency != null">
+        #{voiceFrequency,jdbcType=VARCHAR},
+      </if>
+      <if test="delStatus != null">
+        #{delStatus,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bh.model.domain.VoiceLibrary">
+    update bh_voice_library
+    <set>
+      <if test="communityId != null">
+        community_id = #{communityId,jdbcType=INTEGER},
+      </if>
+      <if test="voiceType != null">
+        voice_type = #{voiceType,jdbcType=INTEGER},
+      </if>
+      <if test="alertingText != null">
+        alerting_text = #{alertingText,jdbcType=VARCHAR},
+      </if>
+      <if test="voiceContent != null">
+        voice_content = #{voiceContent,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="voiceFrequency != null">
+        voice_frequency = #{voiceFrequency,jdbcType=VARCHAR},
+      </if>
+      <if test="delStatus != null">
+        del_status = #{delStatus,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bh.model.domain.VoiceLibrary">
+    update bh_voice_library
+    set community_id = #{communityId,jdbcType=INTEGER},
+      voice_type = #{voiceType,jdbcType=INTEGER},
+      alerting_text = #{alertingText,jdbcType=VARCHAR},
+      voice_content = #{voiceContent,jdbcType=VARCHAR},
+      status = #{status,jdbcType=INTEGER},
+      voice_frequency = #{voiceFrequency,jdbcType=VARCHAR},
+      del_status = #{delStatus,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

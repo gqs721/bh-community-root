@@ -21,7 +21,7 @@ import java.util.Map;
  */
 @RestController
 @RequestMapping(value = "/tenement/passRecord")
-@Api(value = "住户进出记录管理api", description="住户进出记录管理api")
+@Api(tags = "住户进出记录接口API", description="住户进出记录管理")
 public class TenementPassRecordController {
 
     @Autowired

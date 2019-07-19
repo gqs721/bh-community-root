@@ -21,7 +21,7 @@ import java.util.Map;
  */
 @RestController
 @RequestMapping(value = "/tenement")
-@Api(value = "住户管理api", description="住户管理api")
+@Api(tags = "住户管理接口API", description="住户管理")
 @Validated
 public class TenementController {
 

@@ -16,7 +16,7 @@ import java.util.Map;
  */
 @RestController
 @RequestMapping("/sys/menus")
-@Api(value = "菜单api", description="菜单api")
+@Api(tags = "菜单接口API", description="菜单管理")
 public class ResourceController {
 
 

@@ -19,7 +19,7 @@ import java.util.Map;
  */
 @RestController
 @RequestMapping("/sys/role")
-@Api(value = "角色api", description="角色api")
+@Api(tags = "角色接口API", description="角色管理")
 public class RoleController {
 
 

@@ -33,7 +33,7 @@ import java.util.Map;
  */
 @RestController
 @RequestMapping(value = "/community")
-@Api(value = "小区管理api", description="小区管理api")
+@Api(tags = "小区管理接口API", description="小区管理")
 @Validated
 public class CommunityController {
 
@@ -75,7 +75,7 @@ public class CommunityController {
      * @param result
      * @return
      */
-    @MyLog(value="删除小区信息")
+    @MyLog(value="修改小区信息")
     @ApiOperation(value = "修改小区信息接口", notes = "修改小区信息")
     @RequestMapping(value = "/update",method = RequestMethod.POST)
     public RestResult update(Community community, BindingResult result){

@@ -21,7 +21,7 @@ import java.util.Map;
  */
 @RestController
 @RequestMapping(value = "/building")
-@Api(value = "楼栋管理api", description="楼栋管理api")
+@Api(tags = "楼栋设置接口API", description="楼栋管理")
 @Validated
 public class BuildingController {
 
@@ -63,7 +63,7 @@ public class BuildingController {
      * @param result
      * @return
      */
-    @MyLog(value="删除楼栋信息")
+    @MyLog(value="修改楼栋信息")
     @ApiOperation(value = "修改楼栋信息接口", notes = "修改楼栋信息")
     @RequestMapping(value = "/update",method = RequestMethod.POST)
     public RestResult update(Building building, BindingResult result){

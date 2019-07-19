@@ -40,7 +40,7 @@ import java.util.Map;
  */
 @RestController
 @RequestMapping(value = "/sys/admin")
-@Api(value = "管理员api", description="管理员api")
+@Api(tags = "管理员接口API", description="管理员管理")
 @Validated
 public class AdminController {
 

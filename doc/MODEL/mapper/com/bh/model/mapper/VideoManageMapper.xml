@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bh.model.dao.VideoManageMapper">
+  <resultMap id="BaseResultMap" type="com.bh.model.domain.VideoManage">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="monitor_id" jdbcType="INTEGER" property="monitorId" />
+    <result column="monitor_name" jdbcType="VARCHAR" property="monitorName" />
+    <result column="monitor_site" jdbcType="VARCHAR" property="monitorSite" />
+    <result column="monitor_date" jdbcType="TIMESTAMP" property="monitorDate" />
+    <result column="monitor_time" jdbcType="VARCHAR" property="monitorTime" />
+    <result column="monitor_duration" jdbcType="VARCHAR" property="monitorDuration" />
+    <result column="video_url" jdbcType="VARCHAR" property="videoUrl" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="del_status" jdbcType="INTEGER" property="delStatus" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, monitor_id, monitor_name, monitor_site, monitor_date, monitor_time, monitor_duration, 
+    video_url, status, del_status, create_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from bh_video_manage
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from bh_video_manage
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.bh.model.domain.VideoManage">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into bh_video_manage (monitor_id, monitor_name, monitor_site, 
+      monitor_date, monitor_time, monitor_duration, 
+      video_url, status, del_status, 
+      create_time)
+    values (#{monitorId,jdbcType=INTEGER}, #{monitorName,jdbcType=VARCHAR}, #{monitorSite,jdbcType=VARCHAR}, 
+      #{monitorDate,jdbcType=TIMESTAMP}, #{monitorTime,jdbcType=VARCHAR}, #{monitorDuration,jdbcType=VARCHAR}, 
+      #{videoUrl,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, #{delStatus,jdbcType=INTEGER}, 
+      #{createTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.bh.model.domain.VideoManage">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into bh_video_manage
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="monitorId != null">
+        monitor_id,
+      </if>
+      <if test="monitorName != null">
+        monitor_name,
+      </if>
+      <if test="monitorSite != null">
+        monitor_site,
+      </if>
+      <if test="monitorDate != null">
+        monitor_date,
+      </if>
+      <if test="monitorTime != null">
+        monitor_time,
+      </if>
+      <if test="monitorDuration != null">
+        monitor_duration,
+      </if>
+      <if test="videoUrl != null">
+        video_url,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="delStatus != null">
+        del_status,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="monitorId != null">
+        #{monitorId,jdbcType=INTEGER},
+      </if>
+      <if test="monitorName != null">
+        #{monitorName,jdbcType=VARCHAR},
+      </if>
+      <if test="monitorSite != null">
+        #{monitorSite,jdbcType=VARCHAR},
+      </if>
+      <if test="monitorDate != null">
+        #{monitorDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="monitorTime != null">
+        #{monitorTime,jdbcType=VARCHAR},
+      </if>
+      <if test="monitorDuration != null">
+        #{monitorDuration,jdbcType=VARCHAR},
+      </if>
+      <if test="videoUrl != null">
+        #{videoUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="delStatus != null">
+        #{delStatus,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bh.model.domain.VideoManage">
+    update bh_video_manage
+    <set>
+      <if test="monitorId != null">
+        monitor_id = #{monitorId,jdbcType=INTEGER},
+      </if>
+      <if test="monitorName != null">
+        monitor_name = #{monitorName,jdbcType=VARCHAR},
+      </if>
+      <if test="monitorSite != null">
+        monitor_site = #{monitorSite,jdbcType=VARCHAR},
+      </if>
+      <if test="monitorDate != null">
+        monitor_date = #{monitorDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="monitorTime != null">
+        monitor_time = #{monitorTime,jdbcType=VARCHAR},
+      </if>
+      <if test="monitorDuration != null">
+        monitor_duration = #{monitorDuration,jdbcType=VARCHAR},
+      </if>
+      <if test="videoUrl != null">
+        video_url = #{videoUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="delStatus != null">
+        del_status = #{delStatus,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bh.model.domain.VideoManage">
+    update bh_video_manage
+    set monitor_id = #{monitorId,jdbcType=INTEGER},
+      monitor_name = #{monitorName,jdbcType=VARCHAR},
+      monitor_site = #{monitorSite,jdbcType=VARCHAR},
+      monitor_date = #{monitorDate,jdbcType=TIMESTAMP},
+      monitor_time = #{monitorTime,jdbcType=VARCHAR},
+      monitor_duration = #{monitorDuration,jdbcType=VARCHAR},
+      video_url = #{videoUrl,jdbcType=VARCHAR},
+      status = #{status,jdbcType=INTEGER},
+      del_status = #{delStatus,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

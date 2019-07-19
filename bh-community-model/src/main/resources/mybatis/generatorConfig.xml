@@ -46,7 +46,7 @@
             <property name="enableSubPackages" value="true"/>
         </javaClientGenerator>
 
-        <table tableName="bh_visitor_pass_record"  domainObjectName="VisitorPassRecord"
+        <table tableName="bh_hazardous_area_alarm"  domainObjectName="HazardousAreaAlarm"
                enableCountByExample="false" enableUpdateByExample="false"
                enableDeleteByExample="false" enableSelectByExample="false"
                selectByExampleQueryId="false">

@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bh.model.dao.HighTossActAlarmMapper">
+  <resultMap id="BaseResultMap" type="com.bh.model.domain.HighTossActAlarm">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="community_id" jdbcType="INTEGER" property="communityId" />
+    <result column="monitor_id" jdbcType="INTEGER" property="monitorId" />
+    <result column="tenement_id" jdbcType="INTEGER" property="tenementId" />
+    <result column="printscreen" jdbcType="VARCHAR" property="printscreen" />
+    <result column="monitor_name" jdbcType="VARCHAR" property="monitorName" />
+    <result column="installation_site" jdbcType="VARCHAR" property="installationSite" />
+    <result column="tenement_name" jdbcType="VARCHAR" property="tenementName" />
+    <result column="alarm_date" jdbcType="TIMESTAMP" property="alarmDate" />
+    <result column="alarm_time" jdbcType="VARCHAR" property="alarmTime" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="del_status" jdbcType="INTEGER" property="delStatus" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, community_id, monitor_id, tenement_id, printscreen, monitor_name, installation_site, 
+    tenement_name, alarm_date, alarm_time, status, del_status, create_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from bh_high_toss_act_alarm
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from bh_high_toss_act_alarm
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.bh.model.domain.HighTossActAlarm">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into bh_high_toss_act_alarm (community_id, monitor_id, tenement_id, 
+      printscreen, monitor_name, installation_site, 
+      tenement_name, alarm_date, alarm_time, 
+      status, del_status, create_time
+      )
+    values (#{communityId,jdbcType=INTEGER}, #{monitorId,jdbcType=INTEGER}, #{tenementId,jdbcType=INTEGER}, 
+      #{printscreen,jdbcType=VARCHAR}, #{monitorName,jdbcType=VARCHAR}, #{installationSite,jdbcType=VARCHAR}, 
+      #{tenementName,jdbcType=VARCHAR}, #{alarmDate,jdbcType=TIMESTAMP}, #{alarmTime,jdbcType=VARCHAR}, 
+      #{status,jdbcType=INTEGER}, #{delStatus,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.bh.model.domain.HighTossActAlarm">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into bh_high_toss_act_alarm
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="communityId != null">
+        community_id,
+      </if>
+      <if test="monitorId != null">
+        monitor_id,
+      </if>
+      <if test="tenementId != null">
+        tenement_id,
+      </if>
+      <if test="printscreen != null">
+        printscreen,
+      </if>
+      <if test="monitorName != null">
+        monitor_name,
+      </if>
+      <if test="installationSite != null">
+        installation_site,
+      </if>
+      <if test="tenementName != null">
+        tenement_name,
+      </if>
+      <if test="alarmDate != null">
+        alarm_date,
+      </if>
+      <if test="alarmTime != null">
+        alarm_time,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="delStatus != null">
+        del_status,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="communityId != null">
+        #{communityId,jdbcType=INTEGER},
+      </if>
+      <if test="monitorId != null">
+        #{monitorId,jdbcType=INTEGER},
+      </if>
+      <if test="tenementId != null">
+        #{tenementId,jdbcType=INTEGER},
+      </if>
+      <if test="printscreen != null">
+        #{printscreen,jdbcType=VARCHAR},
+      </if>
+      <if test="monitorName != null">
+        #{monitorName,jdbcType=VARCHAR},
+      </if>
+      <if test="installationSite != null">
+        #{installationSite,jdbcType=VARCHAR},
+      </if>
+      <if test="tenementName != null">
+        #{tenementName,jdbcType=VARCHAR},
+      </if>
+      <if test="alarmDate != null">
+        #{alarmDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="alarmTime != null">
+        #{alarmTime,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="delStatus != null">
+        #{delStatus,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bh.model.domain.HighTossActAlarm">
+    update bh_high_toss_act_alarm
+    <set>
+      <if test="communityId != null">
+        community_id = #{communityId,jdbcType=INTEGER},
+      </if>
+      <if test="monitorId != null">
+        monitor_id = #{monitorId,jdbcType=INTEGER},
+      </if>
+      <if test="tenementId != null">
+        tenement_id = #{tenementId,jdbcType=INTEGER},
+      </if>
+      <if test="printscreen != null">
+        printscreen = #{printscreen,jdbcType=VARCHAR},
+      </if>
+      <if test="monitorName != null">
+        monitor_name = #{monitorName,jdbcType=VARCHAR},
+      </if>
+      <if test="installationSite != null">
+        installation_site = #{installationSite,jdbcType=VARCHAR},
+      </if>
+      <if test="tenementName != null">
+        tenement_name = #{tenementName,jdbcType=VARCHAR},
+      </if>
+      <if test="alarmDate != null">
+        alarm_date = #{alarmDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="alarmTime != null">
+        alarm_time = #{alarmTime,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="delStatus != null">
+        del_status = #{delStatus,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bh.model.domain.HighTossActAlarm">
+    update bh_high_toss_act_alarm
+    set community_id = #{communityId,jdbcType=INTEGER},
+      monitor_id = #{monitorId,jdbcType=INTEGER},
+      tenement_id = #{tenementId,jdbcType=INTEGER},
+      printscreen = #{printscreen,jdbcType=VARCHAR},
+      monitor_name = #{monitorName,jdbcType=VARCHAR},
+      installation_site = #{installationSite,jdbcType=VARCHAR},
+      tenement_name = #{tenementName,jdbcType=VARCHAR},
+      alarm_date = #{alarmDate,jdbcType=TIMESTAMP},
+      alarm_time = #{alarmTime,jdbcType=VARCHAR},
+      status = #{status,jdbcType=INTEGER},
+      del_status = #{delStatus,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -2,9 +2,9 @@ package com.bh.system.controller;
 
 import com.bh.common.aop.MyLog;
 import com.bh.common.result.RestResult;
-import com.bh.model.domain.TenementPassRecord;
-import com.bh.model.domain.VisitorPassRecord;
-import com.bh.system.service.VisitorPassRecordService;
+import com.bh.model.domain.HazardousAreaAlarm;
+import com.bh.model.domain.HighTossActAlarm;
+import com.bh.system.service.HazardousAreaAlarmService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,28 +19,28 @@ import java.util.Map;
 
 /**
  * Created by Mr.BH
- * 访客进出记录管理模块
+ * 危险区域告警管理模块
  */
 @RestController
-@RequestMapping(value = "/visitor/passRecord")
-@Api(tags = "访客进出记录接口API", description="访客进出记录管理")
-public class VisitorPassRecordController {
+@RequestMapping(value = "/hazardous/area/alarm")
+@Api(tags = "危险区域告警管理接口API", description="危险区域告警管理")
+public class HazardousAreaAlarmController {
 
     @Autowired
-    private VisitorPassRecordService visitorPassRecordService;
+    private HazardousAreaAlarmService hazardousAreaAlarmService;
 
 
     /**
-     * 添加访客进出记录
-     * @param visitorPassRecord
+     * 添加危险区域告警记录
+     * @param hazardousAreaAlarm
      * @param result
      * @return
      */
-    @MyLog(value="新增访客进出记录")
-    @ApiOperation(value = "新增访客进出记录接口", notes = "新增访客进出记录")
+    @MyLog(value="新增危险区域告警记录")
+    @ApiOperation(value = "新增危险区域告警记录接口", notes = "新增危险区域告警记录")
     @RequestMapping(value = "/save", method = RequestMethod.POST)
-    public RestResult save(VisitorPassRecord visitorPassRecord, BindingResult result) {
-        return visitorPassRecordService.save(visitorPassRecord);
+    public RestResult save(HazardousAreaAlarm hazardousAreaAlarm, BindingResult result) {
+        return hazardousAreaAlarmService.save(hazardousAreaAlarm);
     }
 
 
@@ -49,20 +49,20 @@ public class VisitorPassRecordController {
      * @param map
      * @return
      */
-    @MyLog(value="删除访客进出记录")
-    @ApiOperation(value = "访客进出记录批量删除接口", notes = "访客进出记录批量删除，逻辑删除")
+    @MyLog(value="删除危险区域告警记录")
+    @ApiOperation(value = "危险区域告警记录批量删除接口", notes = "危险区域告警记录批量删除，逻辑删除")
     @RequestMapping(value = "/delete",method = RequestMethod.POST)
     public RestResult delete(@RequestBody Map map){
         List<Integer> ids = (List<Integer>) map.get("ids");
-        return visitorPassRecordService.delete(ids);
+        return hazardousAreaAlarmService.delete(ids);
     }
 
 
     /**
-     * 访客进出记录列表
+     * 危险区域告警记录列表
      * @param map
      */
-    @ApiOperation(value = "获取访客进出记录列表接口（分页）", notes = "获取访客进出记录列表,json串，参数：keyword：关键字，beginDate：开始时间，endDate：结束时间，pageNum:页码，pageSize：条数")
+    @ApiOperation(value = "获取危险区域告警记录列表接口（分页）", notes = "获取危险区域告警记录列表,json串，参数：keyword：区域位置，beginDate：开始时间，endDate：结束时间，pageNum:页码，pageSize：条数")
     @RequestMapping(value = "/list",method = RequestMethod.POST)
     public RestResult list(@RequestBody Map map){
         String keyword = (String) map.get("keyword");
@@ -70,6 +70,6 @@ public class VisitorPassRecordController {
         String endDate = (String) map.get("endDate");
         Integer pageNum = (Integer) map.get("pageNum");
         Integer pageSize = (Integer) map.get("pageSize");
-        return visitorPassRecordService.list(keyword, beginDate, endDate, pageNum, pageSize);
+        return hazardousAreaAlarmService.list(keyword, beginDate, endDate, pageNum, pageSize);
     }
 }

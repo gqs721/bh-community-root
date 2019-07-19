@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bh.model.dao.SlideshowMapper">
+  <resultMap id="BaseResultMap" type="com.bh.model.domain.Slideshow">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="community_id" jdbcType="INTEGER" property="communityId" />
+    <result column="slideshow_pic" jdbcType="VARCHAR" property="slideshowPic" />
+    <result column="timing_play" jdbcType="INTEGER" property="timingPlay" />
+    <result column="begin_time" jdbcType="TIMESTAMP" property="beginTime" />
+    <result column="end_time" jdbcType="TIMESTAMP" property="endTime" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="schedule" jdbcType="INTEGER" property="schedule" />
+    <result column="del_status" jdbcType="INTEGER" property="delStatus" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, community_id, slideshow_pic, timing_play, begin_time, end_time, status, schedule, 
+    del_status, create_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from bh_slideshow
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from bh_slideshow
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.bh.model.domain.Slideshow">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into bh_slideshow (community_id, slideshow_pic, timing_play, 
+      begin_time, end_time, status, 
+      schedule, del_status, create_time
+      )
+    values (#{communityId,jdbcType=INTEGER}, #{slideshowPic,jdbcType=VARCHAR}, #{timingPlay,jdbcType=INTEGER}, 
+      #{beginTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER}, 
+      #{schedule,jdbcType=INTEGER}, #{delStatus,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.bh.model.domain.Slideshow">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into bh_slideshow
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="communityId != null">
+        community_id,
+      </if>
+      <if test="slideshowPic != null">
+        slideshow_pic,
+      </if>
+      <if test="timingPlay != null">
+        timing_play,
+      </if>
+      <if test="beginTime != null">
+        begin_time,
+      </if>
+      <if test="endTime != null">
+        end_time,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="schedule != null">
+        schedule,
+      </if>
+      <if test="delStatus != null">
+        del_status,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="communityId != null">
+        #{communityId,jdbcType=INTEGER},
+      </if>
+      <if test="slideshowPic != null">
+        #{slideshowPic,jdbcType=VARCHAR},
+      </if>
+      <if test="timingPlay != null">
+        #{timingPlay,jdbcType=INTEGER},
+      </if>
+      <if test="beginTime != null">
+        #{beginTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null">
+        #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="schedule != null">
+        #{schedule,jdbcType=INTEGER},
+      </if>
+      <if test="delStatus != null">
+        #{delStatus,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bh.model.domain.Slideshow">
+    update bh_slideshow
+    <set>
+      <if test="communityId != null">
+        community_id = #{communityId,jdbcType=INTEGER},
+      </if>
+      <if test="slideshowPic != null">
+        slideshow_pic = #{slideshowPic,jdbcType=VARCHAR},
+      </if>
+      <if test="timingPlay != null">
+        timing_play = #{timingPlay,jdbcType=INTEGER},
+      </if>
+      <if test="beginTime != null">
+        begin_time = #{beginTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null">
+        end_time = #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="schedule != null">
+        schedule = #{schedule,jdbcType=INTEGER},
+      </if>
+      <if test="delStatus != null">
+        del_status = #{delStatus,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bh.model.domain.Slideshow">
+    update bh_slideshow
+    set community_id = #{communityId,jdbcType=INTEGER},
+      slideshow_pic = #{slideshowPic,jdbcType=VARCHAR},
+      timing_play = #{timingPlay,jdbcType=INTEGER},
+      begin_time = #{beginTime,jdbcType=TIMESTAMP},
+      end_time = #{endTime,jdbcType=TIMESTAMP},
+      status = #{status,jdbcType=INTEGER},
+      schedule = #{schedule,jdbcType=INTEGER},
+      del_status = #{delStatus,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <!-- ********* 自定义 *********** -->
+  <!-- 轮播图 -->
+  <resultMap id="SlideshowResultMap" type="java.util.HashMap">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="community_id" jdbcType="INTEGER" property="communityId" />
+    <result column="slideshow_pic" jdbcType="VARCHAR" property="slideshowPic" />
+    <result column="timing_play" jdbcType="INTEGER" property="timingPlay" />
+    <result column="begin_time" jdbcType="TIMESTAMP" property="beginTime" />
+    <result column="end_time" jdbcType="TIMESTAMP" property="endTime" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="schedule" jdbcType="INTEGER" property="schedule" />
+    <result column="del_status" jdbcType="INTEGER" property="delStatus" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+  </resultMap>
+
+  <!-- 批量删除 逻辑删除-->
+  <update id="deleteBatch" parameterType="java.lang.Integer">
+    update bh_slideshow
+    set del_status=1
+    where id in
+    <foreach collection="array" index="index" item="item"
+             separator="," open="(" close=")">
+      #{item}
+    </foreach>
+  </update>
+
+  <!-- 数据列表 -->
+  <select id="listPage" parameterType="java.util.HashMap" resultMap="SlideshowResultMap">
+    select
+    sa.id,
+    sa.community_id,
+    sa.slideshow_pic,
+    sa.timing_play,
+    sa.begin_time,
+    sa.end_time,
+    sa.schedule,
+    sa.status,
+    sa.del_status,
+    sa.create_time
+    from bh_slideshow as sa
+    <trim prefix="WHERE" prefixOverrides="AND|OR">
+      sa.del_status=0
+      <if test="schedule != null and schedule != '' and schedule != 0">
+        AND sa.schedule = #{schedule}
+      </if>
+      <if test="beginDate != null and beginDate != ''">
+        AND sa.begin_time >= #{beginDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="endDate != null and endDate != ''">
+        <![CDATA[ AND sa.end_time <= concat(#{endDate,jdbcType=TIMESTAMP},' 23:59:59') ]]>
+      </if>
+    </trim>
+    order by create_time DESC
+    <if test="pageNum != null and pageSize != null">
+      LIMIT #{pageNum},#{pageSize}
+    </if>
+  </select>
+
+  <!-- 分页数量统计 -->
+  <select id="countPage" parameterType="java.util.HashMap" resultType="java.lang.Integer">
+    select
+    count(1)
+    from bh_slideshow as sa
+    <trim prefix="WHERE" prefixOverrides="AND|OR">
+      sa.del_status=0
+      <if test="schedule != null and schedule != '' and schedule != 0">
+        AND sa.schedule = #{schedule}
+      </if>
+      <if test="beginDate != null and beginDate != ''">
+        AND sa.begin_time >= #{beginDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="endDate != null and endDate != ''">
+        <![CDATA[ AND sa.end_time <= concat(#{endDate,jdbcType=TIMESTAMP},' 23:59:59') ]]>
+      </if>
+    </trim>
+  </select>
+</mapper>
